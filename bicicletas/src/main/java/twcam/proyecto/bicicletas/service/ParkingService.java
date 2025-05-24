@@ -25,6 +25,7 @@ public class ParkingService {
     }
 
     public Parking save(Parking aparcamiento) {
+        System.out.println(aparcamiento);
         return repo.save(aparcamiento);
     }
 

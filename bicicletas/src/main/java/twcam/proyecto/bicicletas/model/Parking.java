@@ -11,7 +11,7 @@ public class Parking {
     @Column(nullable = false)
     private String direction;
 
-    @Column(nullable = false)
+    @Column(name = "bikes_capacity", nullable = false)
     private Integer bikesCapacity;
 
     @Column(nullable = false)
