@@ -6,8 +6,7 @@ import jakarta.persistence.*;
 @Table(name = "parking")
 public class Parking {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idparking;
+    private String idparking;
 
     @Column(nullable = false)
     private String direction;
@@ -21,11 +20,11 @@ public class Parking {
     @Column(nullable = false)
     private float longitude;
 
-    public Integer getIdparking() {
+    public String getIdparking() {
         return idparking;
     }
 
-    public void setIdparking(Integer idparking) {
+    public void setIdparking(String idparking) {
         this.idparking = idparking;
     }
 

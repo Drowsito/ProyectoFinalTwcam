@@ -20,7 +20,7 @@ public class ParkingService {
         return repo.findAll();
     }
 
-    public Optional<Parking> findById(Integer id) {
+    public Optional<Parking> findById(String id) {
         return repo.findById(id);
     }
 
@@ -28,7 +28,7 @@ public class ParkingService {
         return repo.save(aparcamiento);
     }
 
-    public void delete(Integer id) {
+    public void delete(String id) {
         repo.deleteById(id);
     }
 }

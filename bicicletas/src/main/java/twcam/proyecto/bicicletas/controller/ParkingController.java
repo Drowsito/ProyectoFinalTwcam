@@ -34,13 +34,13 @@ public class ParkingController {
     }
 
     @PutMapping("/aparcamiento/{id}")
-    public Parking update(@PathVariable Integer id, @RequestBody Parking parking) {
+    public Parking update(@PathVariable String id, @RequestBody Parking parking) {
         parking.setIdparking(id);
         return service.save(parking);
     }
 
     @DeleteMapping("/aparcamiento/{id}")
-    public void delete(@PathVariable Integer id) {
+    public void delete(@PathVariable String id) {
         service.delete(id);
     }
 }   
