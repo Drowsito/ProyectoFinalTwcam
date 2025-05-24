@@ -21,7 +21,7 @@ public class EventoService {
     }
 
     public List<Evento> findById(String id){
-        return repo.findById(id);
+        return repo.findByParkingId(id);
     } 
 
     public List<Evento> findByFechas(String id, LocalDateTime from, LocalDateTime to) {

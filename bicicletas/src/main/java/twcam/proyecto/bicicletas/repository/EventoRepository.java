@@ -9,8 +9,9 @@ import org.springframework.stereotype.Repository;
 import twcam.proyecto.bicicletas.model.Evento;
 
 @Repository
-public interface EventoRepository extends MongoRepository<Evento, Integer> {
+public interface EventoRepository extends MongoRepository<Evento, String> {
     List<Evento> findByIdAndTimestamp(String id, LocalDateTime from, LocalDateTime to);
     
-    List<Evento> findById(String id);
+    List<Evento> findByParkingId(String id);
+
 }

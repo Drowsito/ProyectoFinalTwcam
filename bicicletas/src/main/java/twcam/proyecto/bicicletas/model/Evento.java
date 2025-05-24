@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -13,7 +14,7 @@ public class Evento {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String mongoId;
 
-    private String id;
+    private String parkingId;
 
     private String operation;
 
@@ -25,10 +26,10 @@ public class Evento {
 
     
 
-    public Evento(String mongoId, String id, String operation, Integer bikesAvailable, Integer freeParkingSpots,
+    public Evento(String mongoId, String parkingId, String operation, Integer bikesAvailable, Integer freeParkingSpots,
             LocalDateTime timestamp) {
         this.mongoId = mongoId;
-        this.id = id;
+        this.parkingId = parkingId;
         this.operation = operation;
         this.bikesAvailable = bikesAvailable;
         this.freeParkingSpots = freeParkingSpots;
@@ -44,11 +45,11 @@ public class Evento {
     }
 
     public String getId() {
-        return id;
+        return parkingId;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.parkingId = id;
     }
 
     public String getOperation() {
