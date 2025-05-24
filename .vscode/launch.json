@@ -9,6 +9,16 @@
             "projectName": "bicicletas",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-PolucionApplication<polucion>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "twcam.proyecto.polucion.PolucionApplication",
+            "projectName": "polucion",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
