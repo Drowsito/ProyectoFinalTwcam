@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
     title = "API de bicicletas",
     version = "v1",
     contact = @Contact(
-      name = "Pablo Gómez/Diego Ruiz", email = "pagobo2@alumni.uv.es/"
+      name = "Pablo Gómez/Diego Ruiz", email = "pagobo2@alumni.uv.es/dieruiz4@alumni.uv.es"
     ),
     license = @License(
       name = "Apache 2.0", url = "https://www.apache.org/licenses/LICENSE-2.0"
