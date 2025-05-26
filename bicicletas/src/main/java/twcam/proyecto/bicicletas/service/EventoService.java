@@ -1,10 +1,14 @@
 package twcam.proyecto.bicicletas.service;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import twcam.proyecto.bicicletas.model.EstadoDTO;
 import twcam.proyecto.bicicletas.model.Evento;
 import twcam.proyecto.bicicletas.repository.EventoRepository;
 
@@ -20,11 +24,33 @@ public class EventoService {
         return repo.save(evento);
     }
 
-    public List<Evento> findById(String id){
-        return repo.findByParkingId(id);
-    } 
+    public Evento findParkingStatus(String id) {
+        return repo.findFirstByParkingIdOrderByTimestampDesc(id).orElse(null);
+    }
 
     public List<Evento> findByFechas(String id, LocalDateTime from, LocalDateTime to) {
         return repo.findByIdAndTimestamp(id, from, to);
     }
+
+    public List<EstadoDTO> top10ConMasBicisAhora() {
+        LocalDateTime fecha = LocalDateTime.now();
+        List<Evento> eventos = repo.findByTimestampLessThanEqual(fecha);
+
+        Map<String, Evento> ultimosEventos = new HashMap<>();
+
+        for (Evento evento : eventos) {
+            String parkingId = evento.getId();
+            Evento actual = ultimosEventos.get(parkingId);
+            if (actual == null || evento.getTimestamp().isAfter(actual.getTimestamp())) {
+                ultimosEventos.put(parkingId, evento);
+            }
+        }
+
+        return ultimosEventos.values().stream()
+                .sorted(Comparator.comparingInt(Evento::getBikesAvailable).reversed())
+                .limit(10)
+                .map(e -> new EstadoDTO(e.getId(), e.getBikesAvailable(), e.getFreeParkingSpots()))
+                .toList();
+    }
+
 }
