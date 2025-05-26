@@ -19,6 +19,16 @@
             "projectName": "polucion",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ConfigServerApplication<config_server>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "twcam.proyecto.config_server.ConfigServerApplication",
+            "projectName": "config_server",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
