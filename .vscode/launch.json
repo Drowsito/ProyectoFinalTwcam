@@ -18,7 +18,8 @@
             "mainClass": "twcam.proyecto.polucion.PolucionApplication",
             "projectName": "polucion",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=52929 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=polucion"
         },
         {
             "type": "java",
@@ -27,6 +28,16 @@
             "cwd": "${workspaceFolder}",
             "mainClass": "twcam.proyecto.config_server.ConfigServerApplication",
             "projectName": "config_server",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-AyuntamientoApplication<ayuntamiento>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "twcam.proyecto.ayuntamiento.AyuntamientoApplication",
+            "projectName": "ayuntamiento",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
