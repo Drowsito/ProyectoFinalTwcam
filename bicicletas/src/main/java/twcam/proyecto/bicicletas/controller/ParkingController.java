@@ -13,6 +13,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,49 +35,100 @@ public class ParkingController {
 
     @GetMapping("/aparcamientos")
     @Operation(summary = "Get parkings", description = "Muestra todos los aparcamientos")
-    public List<Parking> listAll() {
-        return parkingService.findAll();
+    public ResponseEntity<?> listAll() {
+        List<Parking> parkings = parkingService.findAll();
+        if (parkings.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No hay aparcamientos disponibles");
+        }
+        return ResponseEntity.ok(parkings);
     }
 
     @PostMapping("/aparcamiento")
     @Operation(summary = "Add parking", description = "Añade un nuevo aparcamiento")
-    public Parking add(@RequestBody Parking parking) {
-        return parkingService.save(parking);
+    public ResponseEntity<?> add(@RequestBody Parking parking) {
+        Parking saved = parkingService.save(parking);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Aparcamiento creado con ID: " + saved.getIdparking());
     }
 
     @PutMapping("/aparcamiento/{id}")
     @Operation(summary = "Update parking", description = "Modifica un parking")
-    public Parking update(@PathVariable String id, @RequestBody Parking parking) {
+    public ResponseEntity<?> update(@PathVariable String id, @RequestBody Parking parking) {
+        boolean exists = parkingService.existsById(id);
+        if (!exists) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No se encontró un aparcamiento con ID: " + id);
+        }
         parking.setIdparking(id);
-        return parkingService.save(parking);
+        Parking updated = parkingService.save(parking);
+        return ResponseEntity.ok("Aparcamiento actualizado con ID: " + updated.getIdparking());
     }
 
     @DeleteMapping("/aparcamiento/{id}")
     @Operation(summary = "Delete parking", description = "Elimina un parking pasado un id")
-    public void delete(@PathVariable String id) {
+    public ResponseEntity<?> delete(@PathVariable String id) {
+        boolean exists = parkingService.existsById(id);
+        if (!exists) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No existe aparcamiento con ID: " + id);
+        }
         parkingService.delete(id);
+        return ResponseEntity.ok("Aparcamiento con ID " + id + " eliminado correctamente.");
     }
 
     @GetMapping("/aparcamiento/{id}/status")
     @Operation(summary = "Get the status of a parking", description = "Muestra el estado de un parking pasado el id")
-    public EstadoDTO statusParking(@PathVariable String id) {
+    public ResponseEntity<?> statusParking(@PathVariable String id) {
+        if (!parkingService.existsById(id)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No se encontró el aparcamiento con ID: " + id);
+        }
+
         Evento evento = eventoService.findParkingStatus(id);
-        return new EstadoDTO(evento.getId(), evento.getBikesAvailable(), evento.getFreeParkingSpots());
+        if (evento == null) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                    .body("No hay datos de estado para el aparcamiento con ID: " + id);
+        }
+
+        EstadoDTO estado = new EstadoDTO(evento.getId(), evento.getBikesAvailable(), evento.getFreeParkingSpots());
+        return ResponseEntity.ok(estado);
     }
 
     @GetMapping(value = "/aparcamiento/{id}/status", params = { "from", "to" })
     @Operation(summary = "Get events by dates", description = "Muestra los cambios de estado de una parada en un cierto espacio de tiempo")
-    public List<Evento> eventsBetweenDates(
+    public ResponseEntity<?> eventsBetweenDates(
             @PathVariable String id,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime from,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to) {
-        return eventoService.findByFechas(id, from, to);
+
+        if (!parkingService.existsById(id)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No se encontró el aparcamiento con ID: " + id);
+        }
+
+        if (from.isAfter(to)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("La fecha inicial debe ser anterior a la final.");
+        }
+
+        List<Evento> eventos = eventoService.findByFechas(id, from, to);
+        if (eventos.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                    .body("No hay eventos registrados entre las fechas proporcionadas.");
+        }
+
+        return ResponseEntity.ok(eventos);
     }
 
     @GetMapping("/aparcamiento/available")
     @Operation(summary = "Top 10 parkings with free bikes", description = "Consulta los 10 parkings con más bicis disponibles en este momento")
-    public List<EstadoDTO> top10Ahora() {
-        return eventoService.top10ConMasBicisAhora();
+    public ResponseEntity<?> top10Ahora() {
+        List<EstadoDTO> lista = eventoService.top10ConMasBicisAhora();
+        if (lista.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                    .body("No hay datos disponibles en este momento.");
+        }
+
+        return ResponseEntity.ok(lista);
     }
 
 }
