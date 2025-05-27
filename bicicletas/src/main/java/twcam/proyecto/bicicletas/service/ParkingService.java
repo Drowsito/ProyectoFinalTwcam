@@ -24,11 +24,14 @@ public class ParkingService {
         return repo.findById(id);
     }
 
-    public Parking save(Parking aparcamiento) {
-        System.out.println(aparcamiento);
-        return repo.save(aparcamiento);
+    public boolean existsById(String id) {
+        return repo.existsById(id);
     }
 
+    public Parking save(Parking aparcamiento) {
+        return repo.save(aparcamiento);
+    }
+    
     public void delete(String id) {
         repo.deleteById(id);
     }
