@@ -90,6 +90,7 @@ public class ParkingController {
         }
 
         EstadoDTO estado = new EstadoDTO(evento.getId(), evento.getBikesAvailable(), evento.getFreeParkingSpots());
+
         return ResponseEntity.ok(estado);
     }
 
