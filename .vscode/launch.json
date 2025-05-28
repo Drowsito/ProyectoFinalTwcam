@@ -40,6 +40,16 @@
             "projectName": "ayuntamiento",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-AuthorizationServerApp<sso-authorization-server>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.marcuschiu.auth.AuthorizationServerApp",
+            "projectName": "sso-authorization-server",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
