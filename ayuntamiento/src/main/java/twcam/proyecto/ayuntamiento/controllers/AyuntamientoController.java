@@ -5,10 +5,12 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -16,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import twcam.shared.domain.Estacion;
+import twcam.shared.domain.EstadoDTO;
 import twcam.shared.domain.Parking;
 
 @RestController
@@ -141,11 +144,12 @@ public class AyuntamientoController {
     @ApiResponse(responseCode = "400", description = "Faltan campos obligatorios en la petición")
     @ApiResponse(responseCode = "404", description = "No existe una parking con el id indicado")
     public ResponseEntity<?> modificarParking(@PathVariable String id, @RequestBody Parking parking) {
-        String ultParking = "http://localhost:8081/aparcamiento/" + id;
+        String urlBicicleta = "http://localhost:8081/aparcamiento/" + id;
 
         try {
             HttpEntity<Parking> request = new HttpEntity<>(parking);
-            ResponseEntity<String> response = restTemplate.exchange(ultParking, HttpMethod.PUT, request, String.class);
+            ResponseEntity<String> response = restTemplate.exchange(urlBicicleta, HttpMethod.PUT, request,
+                    String.class);
 
             return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
         } catch (HttpClientErrorException e) {
@@ -156,5 +160,60 @@ public class AyuntamientoController {
         }
     }
 
+    @GetMapping("/aparcamientoCercano")
+    @Operation(summary = "Aparcamiento más cercano con bicis disponibles", description = "Devuelve el más cercano a la posición indicada")
+    @ApiResponse(responseCode = "200", description = "Se ha encontrado un aparcamiento disponible cercano")
+    @ApiResponse(responseCode = "404", description = "No hay aparcamientos disponibles o con bicis cerca de la ubicación dada")
+    @ApiResponse(responseCode = "500", description = "Error de comunicación con el servicio de bicicletas")
+    public ResponseEntity<?> aparcamientoCercano(@RequestParam Float lat,
+            @RequestParam Float lon) {
+        try {
+            String urlBicicleta = "http://localhost:8081/aparcamientos";
+            ResponseEntity<Parking[]> response = restTemplate.getForEntity(urlBicicleta, Parking[].class);
+            Parking[] aparcamientos = response.getBody();
+
+            if (aparcamientos == null || aparcamientos.length == 0) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No hay aparcamientos disponibles");
+            }
+
+            Parking masCercano = null;
+            float distanciaMinima = Float.MAX_VALUE;
+
+            for (Parking parking : aparcamientos) {
+                String estadoUrl = "http://localhost:8081/aparcamiento/" + parking.getIdparking() + "/status";
+                EstadoDTO estado = restTemplate.getForObject(estadoUrl, EstadoDTO.class);
+
+                if (estado != null && estado.bikesAvailable() > 0) {
+                    float distancia = calcularDistancia(lat, lon, parking.getLatitude(), parking.getLongitude());
+                    if (distancia < distanciaMinima) {
+                        distanciaMinima = distancia;
+                        masCercano = parking;
+                    }
+                }
+            }
+
+            if (masCercano == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("No hay aparcamientos con bicis disponibles");
+            }
+
+            return ResponseEntity.ok(masCercano);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error consultando el servicio de bicicletas");
+        }
+    }
+
+    private float calcularDistancia(float lat1, float lon1, float lat2, float lon2) {
+        final float R = 6371f;
+        float dLat = (float) Math.toRadians(lat2 - lat1);
+        float dLon = (float) Math.toRadians(lon2 - lon1);
+        float a = (float) (Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                        Math.sin(dLon / 2) * Math.sin(dLon / 2));
+        float c = (float) (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
+        return R * c;
+    }
 
 }
