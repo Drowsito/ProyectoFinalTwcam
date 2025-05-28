@@ -3,6 +3,7 @@ package twcam.proyecto.bicicletas.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import twcam.proyecto.bicicletas.model.EstadoDTO;
 import twcam.proyecto.bicicletas.model.Evento;
 import twcam.proyecto.bicicletas.model.Parking;
@@ -45,14 +46,36 @@ public class ParkingController {
 
     @PostMapping("/aparcamiento")
     @Operation(summary = "Add parking", description = "Añade un nuevo aparcamiento")
+    @ApiResponse(responseCode = "201", description = "Aparcamiento creado correctamente")
+    @ApiResponse(responseCode = "400", description = "Faltan campos obligatorios como 'id' o 'dirección'")
+    @ApiResponse(responseCode = "409", description = "Ya existe un aparcamiento con el id indicado")
     public ResponseEntity<?> add(@RequestBody Parking parking) {
+        String errorValidacion = parkingService.validarCamposObligatorios(parking);
+        if (errorValidacion != null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorValidacion);
+        }
+
+        if (parkingService.existsById(parking.getIdparking())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("Ya existe un aparcamiento con el ID: " + parking.getIdparking());
+        }
+
         Parking saved = parkingService.save(parking);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Aparcamiento creado con ID: " + saved.getIdparking());
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("Aparcamiento creado con ID: " + saved.getIdparking());
     }
 
     @PutMapping("/aparcamiento/{id}")
     @Operation(summary = "Update parking", description = "Modifica un parking")
+    @ApiResponse(responseCode = "200", description = "Parking actualizado correctamente")
+    @ApiResponse(responseCode = "400", description = "Faltan campos obligatorios en la petición")
+    @ApiResponse(responseCode = "404", description = "No existe una parking con el id indicado")
     public ResponseEntity<?> update(@PathVariable String id, @RequestBody Parking parking) {
+        String errorValidacion = parkingService.validarCamposObligatorios(parking);
+        if (errorValidacion != null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorValidacion);
+        }
+
         boolean exists = parkingService.existsById(id);
         if (!exists) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -65,6 +88,8 @@ public class ParkingController {
 
     @DeleteMapping("/aparcamiento/{id}")
     @Operation(summary = "Delete parking", description = "Elimina un parking pasado un id")
+    @ApiResponse(responseCode = "200", description = "Parking eliminado correctamente")
+    @ApiResponse(responseCode = "404", description = "No se encontró el parking con ese id")
     public ResponseEntity<?> delete(@PathVariable String id) {
         boolean exists = parkingService.existsById(id);
         if (!exists) {

@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import twcam.shared.domain.Estacion;
+import twcam.shared.domain.Parking;
 
 @RestController
 public class AyuntamientoController {
@@ -90,5 +91,70 @@ public class AyuntamientoController {
                     .body("Error de comunicación con polucion-service");
         }
     }
+
+    @PostMapping("/aparcamiento")
+    @Operation(summary = "Crea un aparcamiento", description = "Crea un aparcamiento redirigiendo la petición al microservicio 'bicicletas'")
+    @ApiResponse(responseCode = "201", description = "Aparcamiento creado correctamente")
+    @ApiResponse(responseCode = "400", description = "Faltan campos obligatorios como 'id' o 'dirección'")
+    @ApiResponse(responseCode = "409", description = "Ya existe un aparcamiento con el id indicado")
+    public ResponseEntity<?> crearParking(@RequestBody Parking parking) {
+        String urlBicicleta = "http://localhost:8081/aparcamiento";
+
+        try {
+            ResponseEntity<String> response = restTemplate.postForEntity(urlBicicleta, parking, String.class);
+
+            return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
+        } catch (HttpClientErrorException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error de comunicación con bicicletas-service");
+        }
+    }
+
+    // TODO: Añadir seguridad: rol "admin" (al OpenAPI también?)
+    @DeleteMapping("/aparcamiento/{id}")
+    @Operation(summary = "Elimina un parking", description = "Elimina un parking redirigiendo la petición al microservicio 'bicicletas'")
+    @ApiResponse(responseCode = "200", description = "Parking eliminado correctamente")
+    @ApiResponse(responseCode = "404", description = "No se encontró el parking con ese id")
+    public ResponseEntity<?> eliminarParking(@PathVariable String id) {
+        String urlBicicleta = "http://localhost:8081/aparcamiento/" + id;
+
+        try {
+            restTemplate.delete(urlBicicleta);
+
+            return ResponseEntity.ok("Estación con id " + id + " eliminada correctamente");
+        } catch (HttpClientErrorException.NotFound e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe la estación con id " + id);
+        } catch (HttpClientErrorException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error de comunicación con bicicletas-service");
+        }
+    }
+
+    // TODO: Añadir seguridad: rol "admin" (al OpenAPI también?)
+    @PutMapping("/aparcamiento/{id}")
+    @Operation(summary = "Modifica un parking", description = "Modifica una parking redirigiendo la petición al microservicio 'bicicletas'")
+    @ApiResponse(responseCode = "200", description = "Parking actualizado correctamente")
+    @ApiResponse(responseCode = "400", description = "Faltan campos obligatorios en la petición")
+    @ApiResponse(responseCode = "404", description = "No existe una parking con el id indicado")
+    public ResponseEntity<?> modificarParking(@PathVariable String id, @RequestBody Parking parking) {
+        String ultParking = "http://localhost:8081/aparcamiento/" + id;
+
+        try {
+            HttpEntity<Parking> request = new HttpEntity<>(parking);
+            ResponseEntity<String> response = restTemplate.exchange(ultParking, HttpMethod.PUT, request, String.class);
+
+            return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
+        } catch (HttpClientErrorException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error de comunicación con bicicletas-service");
+        }
+    }
+
 
 }
