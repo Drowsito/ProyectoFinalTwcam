@@ -50,11 +50,11 @@ public class ParkingService {
         if (capacity == null) {
             return "El campo 'bikesCapacity' es obligatorio";
         }
-        if (latitude == null || latitude == 0.0f) {
-            return "El campo 'latitude' no puede ser 0 ni nulo";
+        if (latitude == null) {
+            return "El campo 'latitude' no puede ser nulo";
         }
-        if (longitude == null ||longitude == 0.0f) {
-            return "El campo 'longitude' no puede ser 0.";
+        if (longitude == null) {
+            return "El campo 'longitude' no puede ser nulo.";
         }
         return null;
     }
