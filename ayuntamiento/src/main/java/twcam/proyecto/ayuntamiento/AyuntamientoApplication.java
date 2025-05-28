@@ -12,7 +12,7 @@ import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.servers.Server;
 
 @SpringBootApplication
-@OpenAPIDefinition(info = @Info(title = "API de ayuntamiento", version = "v1", contact = @Contact(name = "Pablo Gómez/Diego Ruiz", email = "pagobo2@alumni.uv.es/dieruiz4@alumni.uv.es"), license = @License(name = "Apache 2.0", url = "https://www.apache.org/licenses/LICENSE-2.0"), description = "API que contiene todas las operaciones necesarias para la gestión del ayuntameinto"), servers = @Server(url = "/", description = "Production"))
+@OpenAPIDefinition(info = @Info(title = "API de ayuntamiento", version = "v1", contact = @Contact(name = "Pablo Gómez/Diego Ruiz", email = "pagobo2@alumni.uv.es/dieruiz4@alumni.uv.es"), license = @License(name = "Apache 2.0", url = "https://www.apache.org/licenses/LICENSE-2.0"), description = "API que contiene todas las operaciones necesarias para la gestión del ayuntamiento"), servers = @Server(url = "/", description = "Production"))
 public class AyuntamientoApplication {
 	@Bean
 	public RestTemplate getRestTemplate() {
