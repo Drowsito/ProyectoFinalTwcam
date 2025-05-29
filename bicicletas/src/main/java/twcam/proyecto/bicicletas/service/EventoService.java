@@ -8,9 +8,9 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import twcam.proyecto.bicicletas.model.EstadoDTO;
-import twcam.proyecto.bicicletas.model.Evento;
-import twcam.proyecto.bicicletas.repository.EventoRepository;
+import twcam.proyecto.shared.EstadoDTO;
+import twcam.proyecto.bicicletasdata.model.Evento;
+import twcam.proyecto.bicicletasdata.repository.EventoRepository;
 
 @Service
 public class EventoService {
