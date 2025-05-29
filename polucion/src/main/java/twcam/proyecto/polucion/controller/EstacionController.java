@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import twcam.proyecto.polucion.model.Estacion;
-import twcam.proyecto.polucion.repository.EstacionRepository;
+import twcam.proyecto.poluciondata.model.Estacion;
+import twcam.proyecto.poluciondata.repository.EstacionRepository;
 
 @RestController
 public class EstacionController {

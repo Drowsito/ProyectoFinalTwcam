@@ -1,8 +1,8 @@
-package twcam.proyecto.polucion.repository;
+package twcam.proyecto.poluciondata.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import twcam.proyecto.polucion.model.mongo.Lectura;
+import twcam.proyecto.poluciondata.model.mongo.Lectura;
 
 import java.time.Instant;
 import java.util.List;

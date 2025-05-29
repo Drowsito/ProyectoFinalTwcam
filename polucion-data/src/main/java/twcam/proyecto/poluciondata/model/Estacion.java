@@ -1,4 +1,4 @@
-package twcam.proyecto.polucion.model;
+package twcam.proyecto.poluciondata.model;
 
 import jakarta.persistence.*;
 

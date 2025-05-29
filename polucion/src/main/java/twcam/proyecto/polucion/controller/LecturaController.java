@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import twcam.proyecto.polucion.model.mongo.Lectura;
-import twcam.proyecto.polucion.repository.EstacionRepository;
-import twcam.proyecto.polucion.repository.LecturaRepository;
+
+import twcam.proyecto.poluciondata.model.mongo.Lectura;
+import twcam.proyecto.poluciondata.repository.EstacionRepository;
+import twcam.proyecto.poluciondata.repository.LecturaRepository;
 
 @RestController
 public class LecturaController {
