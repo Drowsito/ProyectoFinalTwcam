@@ -3,16 +3,21 @@ package twcam.proyecto.ayuntamientodata.model.mongo;
 import java.time.Instant;
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Document(collection = "aggregated_data")
 public class AggregatedData {
-    @Id
+
+    @JsonIgnore
     private String id;
 
+    @JsonProperty("timeStamp")
     private Instant timeStamp;
 
+    @JsonProperty("aggregatedData")
     private List<EstacionAggregatedData> aggregatedData;
 
     public String getId() {

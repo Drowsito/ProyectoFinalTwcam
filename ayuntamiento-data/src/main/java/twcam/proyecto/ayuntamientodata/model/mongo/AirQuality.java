@@ -1,20 +1,22 @@
 package twcam.proyecto.ayuntamientodata.model.mongo;
 
-public class AirQuality {
-    public AirQuality(float nitricOxides, float nitrogenDioxides, float vOCs_NMHC, float pM2_5) {
-        this.nitricOxides = nitricOxides;
-        this.nitrogenDioxides = nitrogenDioxides;
-        VOCs_NMHC = vOCs_NMHC;
-        PM2_5 = pM2_5;
-    }
+import org.springframework.data.annotation.PersistenceCreator;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class AirQuality {
+    @JsonProperty("nitricOxides")
     private float nitricOxides;
 
+    @JsonProperty("nitrogenDioxides")
     private float nitrogenDioxides;
 
-    private float VOCs_NMHC;
+    @JsonProperty("VOCs_NMHC")
+    private float vocs_nmhc;
 
-    private float PM2_5;
+    @JsonProperty("PM2_5")
+    private float pm2_5;
 
     public float getNitricOxides() {
         return nitricOxides;
@@ -32,20 +34,20 @@ public class AirQuality {
         this.nitrogenDioxides = nitrogenDioxides;
     }
 
-    public float getVOCs_NMHC() {
-        return VOCs_NMHC;
+    public float getVocs_nmhc() {
+        return vocs_nmhc;
     }
 
-    public void setVOCs_NMHC(float vOCs_NMHC) {
-        VOCs_NMHC = vOCs_NMHC;
+    public void setVocs_nmhc(float vocs_nmhc) {
+        this.vocs_nmhc = vocs_nmhc;
     }
 
-    public float getPM2_5() {
-        return PM2_5;
+    public float getPm2_5() {
+        return pm2_5;
     }
 
-    public void setPM2_5(float pM2_5) {
-        PM2_5 = pM2_5;
+    public void setPm2_5(float pm2_5) {
+        this.pm2_5 = pm2_5;
     }
 
 }

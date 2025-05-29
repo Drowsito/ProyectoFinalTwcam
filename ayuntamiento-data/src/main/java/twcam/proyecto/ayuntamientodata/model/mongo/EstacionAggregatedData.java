@@ -1,10 +1,15 @@
 package twcam.proyecto.ayuntamientodata.model.mongo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class EstacionAggregatedData {
+    @JsonProperty("id")
     private int id;
 
+    @JsonProperty("average_bikesAvailable")
     private float average_bikesAvailable;
 
+    @JsonProperty("air_quality")
     private AirQuality air_quality;
 
     public int getId() {

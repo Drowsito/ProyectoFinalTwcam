@@ -43,7 +43,7 @@ public class AggregatedDataService {
 
             try {
                 // 2. Obtener la última lectura
-                // TODO: Se tiene que obtener la media de bcicletas y 
+                // TODO: Se tiene que obtener la media de bcicletas y
                 // de contaminantes? En qué intervalo de tiempo?
                 Lectura lectura = restTemplate.getForObject(
                         baseUrlPolucion + "/estacion/" + estacionId + "/status",
@@ -52,16 +52,17 @@ public class AggregatedDataService {
                 if (lectura == null)
                     continue;
 
-                AirQuality calidad = new AirQuality(
-                        lectura.getNitricOxides(),
-                        lectura.getNitrogenDioxides(),
-                        lectura.getVOCs_NMHC(),
-                        lectura.getPM2_5());
-
+                /*
+                 * AirQuality calidad = new AirQuality(
+                 * lectura.getNitricOxides(),
+                 * lectura.getNitrogenDioxides(),
+                 * lectura.getVOCs_NMHC(),
+                 * lectura.getPM2_5());
+                 */
                 EstacionAggregatedData e = new EstacionAggregatedData();
                 e.setId(estacionId);
                 e.setAverage_bikesAvailable(0); // TODO: Parte de Pablo
-                e.setAir_quality(calidad);
+                // e.setAir_quality(calidad);
 
                 resultado.add(e);
             } catch (HttpClientErrorException.NotFound e) {
@@ -77,5 +78,9 @@ public class AggregatedDataService {
         doc.setAggregatedData(resultado);
 
         return repository.save(doc);
+    }
+
+    public AggregatedData obtenerUltimoRegistro() {
+        return repository.findFirstByOrderByTimeStampDesc();
     }
 }

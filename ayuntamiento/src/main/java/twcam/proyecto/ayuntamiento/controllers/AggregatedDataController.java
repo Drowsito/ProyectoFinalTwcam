@@ -1,6 +1,7 @@
 package twcam.proyecto.ayuntamiento.controllers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,5 +31,18 @@ public class AggregatedDataController {
             return ResponseEntity.badRequest().body("No se pudo generar el documento");
         }
         return ResponseEntity.ok(resultado);
+    }
+
+    @GetMapping("/aggregatedData")
+    @Operation(summary = "Obtiene los últimos datos agregados", description = "Devuelve el documento de datos agregados más reciente")
+    @ApiResponse(responseCode = "200", description = "Datos encontrados")
+    @ApiResponse(responseCode = "404", description = "No hay datos disponibles")
+    public ResponseEntity<?> obtenerUltimosDatos() {
+        AggregatedData ultimo = service.obtenerUltimoRegistro();
+
+        if (ultimo == null) {
+            return ResponseEntity.status(404).body("No hay datos agregados.");
+        }
+        return ResponseEntity.ok(ultimo);
     }
 }
