@@ -3,8 +3,8 @@ package twcam.proyecto.shared;
 import java.time.Instant;
 
 public class Lectura {
-    private int estacionId;
-    
+    private int id;
+
     private Instant timeStamp;
 
     private float nitricOxides;
@@ -15,13 +15,12 @@ public class Lectura {
 
     private float PM2_5;
 
-
-    public int getEstacionId() {
-        return estacionId;
+    public int getId() {
+        return id;
     }
 
-    public void setEstacionId(int estacionId) {
-        this.estacionId = estacionId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Instant getTimeStamp() {

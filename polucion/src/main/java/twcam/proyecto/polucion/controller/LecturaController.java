@@ -49,7 +49,7 @@ public class LecturaController {
             return ResponseEntity.badRequest().body("Falta el campo 'timeStamp'");
         }
 
-        lectura.setEstacionId(Integer.parseInt(id));
+        lectura.setId(Integer.parseInt(id));
         Lectura nueva = lecturaRepository.save(lectura);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(nueva);
@@ -77,7 +77,7 @@ public class LecturaController {
                         .body("Formato de fecha incorrecto. Ejemplo correcto: 2024-03-01T14:30:57Z");
             }
 
-            List<Lectura> lecturas = lecturaRepository.findByEstacionIdAndTimeStampBetweenOrderByTimeStampDesc(id,
+            List<Lectura> lecturas = lecturaRepository.findByIdAndTimeStampBetweenOrderByTimeStampDesc(id,
                     fromInstant, toInstant);
 
             if (lecturas.isEmpty()) {
@@ -89,11 +89,11 @@ public class LecturaController {
         }
 
         // Si no hay parámetros en el request se devuelve la última lectura
-        List<Lectura> lecturas = lecturaRepository.findByEstacionIdOrderByTimeStampDesc(id);
+        List<Lectura> lecturas = lecturaRepository.findByIdOrderByTimeStampDesc(id);
 
         if (lecturas.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No hay lecturas para la estación con id" + id);
+                    .body("No hay lecturas para la estación con id " + id);
         }
 
         return ResponseEntity.ok(lecturas.get(0));

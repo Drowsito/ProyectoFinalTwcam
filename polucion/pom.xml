@@ -61,7 +61,7 @@
 
 		<dependency>
 			<groupId>twcam.proyecto</groupId>
-			<artifactId>polucion-data</artifactId>
+			<artifactId>poluciondata</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
 

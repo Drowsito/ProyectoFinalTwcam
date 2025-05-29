@@ -1,0 +1,15 @@
+{"id": 1, "timeStamp": "2024-03-01T14:30:57Z", "nitricOxides": 10.5, "nitrogenDioxides": 5.2, "VOCs_NMHC": 6.8, "PM2_5": 7.1}
+{"id": 1, "timeStamp": "2024-03-02T14:35:00Z", "nitricOxides": 11.0, "nitrogenDioxides": 5.0, "VOCs_NMHC": 6.5, "PM2_5": 6.9}
+{"id": 1, "timeStamp": "2024-03-03T14:40:00Z", "nitricOxides": 10.2, "nitrogenDioxides": 5.4, "VOCs_NMHC": 7.0, "PM2_5": 7.3}
+{"id": 1, "timeStamp": "2024-03-04T14:45:00Z", "nitricOxides": 10.8, "nitrogenDioxides": 5.1, "VOCs_NMHC": 6.7, "PM2_5": 7.0}
+{"id": 1, "timeStamp": "2024-03-05T14:50:00Z", "nitricOxides": 10.6, "nitrogenDioxides": 5.3, "VOCs_NMHC": 6.9, "PM2_5": 7.2}
+{"id": 2, "timeStamp": "2025-05-28T10:05:00Z", "nitricOxides": 3.0, "nitrogenDioxides": 2.5, "VOCs_NMHC": 4.3, "PM2_5": 2.1}
+{"id": 2, "timeStamp": "2025-05-28T11:00:00Z", "nitricOxides": 3.1, "nitrogenDioxides": 2.6, "VOCs_NMHC": 4.2, "PM2_5": 2.2}
+{"id": 2, "timeStamp": "2025-05-28T12:00:00Z", "nitricOxides": 2.9, "nitrogenDioxides": 2.4, "VOCs_NMHC": 4.4, "PM2_5": 2.0}
+{"id": 2, "timeStamp": "2025-05-28T13:00:00Z", "nitricOxides": 3.2, "nitrogenDioxides": 2.5, "VOCs_NMHC": 4.5, "PM2_5": 2.3}
+{"id": 2, "timeStamp": "2025-05-28T14:00:00Z", "nitricOxides": 3.0, "nitrogenDioxides": 2.6, "VOCs_NMHC": 4.1, "PM2_5": 2.2}
+{"id": 3, "timeStamp": "2025-05-28T08:00:00Z", "nitricOxides": 5.4, "nitrogenDioxides": 3.2, "VOCs_NMHC": 5.1, "PM2_5": 3.8}
+{"id": 3, "timeStamp": "2025-05-28T09:00:00Z", "nitricOxides": 5.5, "nitrogenDioxides": 3.1, "VOCs_NMHC": 5.0, "PM2_5": 3.9}
+{"id": 3, "timeStamp": "2025-05-28T10:00:00Z", "nitricOxides": 5.3, "nitrogenDioxides": 3.3, "VOCs_NMHC": 5.2, "PM2_5": 3.7}
+{"id": 3, "timeStamp": "2025-05-28T11:00:00Z", "nitricOxides": 5.6, "nitrogenDioxides": 3.0, "VOCs_NMHC": 5.3, "PM2_5": 3.6}
+{"id": 3, "timeStamp": "2025-05-28T12:00:00Z", "nitricOxides": 5.4, "nitrogenDioxides": 3.2, "VOCs_NMHC": 5.1, "PM2_5": 3.8}

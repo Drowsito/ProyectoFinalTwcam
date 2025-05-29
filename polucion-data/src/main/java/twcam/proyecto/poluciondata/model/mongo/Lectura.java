@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.Instant;
 
@@ -11,26 +12,40 @@ import java.time.Instant;
 public class Lectura {
     @Id
     @JsonIgnore
-    private String id;
+    private String mongoId;
 
-    private int estacionId;
+    @JsonProperty("id")
+    private int id;
 
+    @JsonProperty("timeStamp")
     private Instant timeStamp;
 
+    @JsonProperty("nitricOxides")
     private float nitricOxides;
 
+    @JsonProperty("nitrogenDioxides")
     private float nitrogenDioxides;
 
+    @JsonProperty("VOCs_NMHC")
     private float VOCs_NMHC;
 
+    @JsonProperty("PM2_5")
     private float PM2_5;
 
-    public int getEstacionId() {
-        return estacionId;
+    public String getMongoId() {
+        return mongoId;
     }
 
-    public void setEstacionId(int estacionId) {
-        this.estacionId = estacionId;
+    public void setMongoId(String mongoId) {
+        this.mongoId = mongoId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Instant getTimeStamp() {
