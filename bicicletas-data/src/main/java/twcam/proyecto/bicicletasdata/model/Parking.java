@@ -1,4 +1,4 @@
-package twcam.proyecto.bicicletas.model;
+package twcam.proyecto.bicicletasdata.model;
 
 import jakarta.persistence.*;
 

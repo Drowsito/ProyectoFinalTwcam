@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
-import twcam.proyecto.bicicletas.model.Evento;
+import twcam.proyecto.bicicletasdata.model.Evento;
 import twcam.proyecto.bicicletas.service.EventoService;
 
 import java.time.LocalDateTime;

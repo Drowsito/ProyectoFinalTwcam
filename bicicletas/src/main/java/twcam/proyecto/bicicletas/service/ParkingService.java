@@ -5,8 +5,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import twcam.proyecto.bicicletas.model.Parking;
-import twcam.proyecto.bicicletas.repository.ParkingRepository;
+import twcam.proyecto.bicicletasdata.model.Parking;
+import twcam.proyecto.bicicletasdata.repository.ParkingRepository;
 
 @Service
 public class ParkingService {
