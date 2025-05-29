@@ -1,4 +1,4 @@
-package twcam.shared.domain;
+package twcam.proyecto.shared;
 
 public class Parking {
     private String idparking;

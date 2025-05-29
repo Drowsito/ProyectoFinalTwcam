@@ -1,12 +1,11 @@
-package twcam.proyecto.ayuntamiento.model.mongo;
+package twcam.proyecto.shared;
 
-public class AirQuality {
-    public AirQuality(float nitricOxides, float nitrogenDioxides, float vOCs_NMHC, float pM2_5) {
-        this.nitricOxides = nitricOxides;
-        this.nitrogenDioxides = nitrogenDioxides;
-        VOCs_NMHC = vOCs_NMHC;
-        PM2_5 = pM2_5;
-    }
+import java.time.Instant;
+
+public class Lectura {
+    private int estacionId;
+    
+    private Instant timeStamp;
 
     private float nitricOxides;
 
@@ -15,6 +14,23 @@ public class AirQuality {
     private float VOCs_NMHC;
 
     private float PM2_5;
+
+
+    public int getEstacionId() {
+        return estacionId;
+    }
+
+    public void setEstacionId(int estacionId) {
+        this.estacionId = estacionId;
+    }
+
+    public Instant getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(Instant timeStamp) {
+        this.timeStamp = timeStamp;
+    }
 
     public float getNitricOxides() {
         return nitricOxides;

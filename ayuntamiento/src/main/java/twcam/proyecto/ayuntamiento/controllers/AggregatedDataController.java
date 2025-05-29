@@ -6,8 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import twcam.proyecto.ayuntamiento.model.mongo.AggregatedData;
+
 import twcam.proyecto.ayuntamiento.service.AggregatedDataService;
+import twcam.proyecto.ayuntamientodata.model.mongo.AggregatedData;
 
 @RestController
 public class AggregatedDataController {
@@ -21,7 +22,8 @@ public class AggregatedDataController {
     @PostMapping("/aggregateData")
     @Operation(summary = "Obtiene datos de polución y de estaciones", description = "Obtiene el número medio de bicicletas disponibles y el número medio de cada tipo de contaminante atmosférico. Los datos de polución se obtienen de la estación más cercana a cada aparcamiento. Se invoca a intervalores regulares de tiempo y persiste en una base de datos NoSQL.")
     // TODO: Hacer los ApiResponse bien
-    // @ApiResponse(responseCode = "201", description = "Estación creada correctamente")
+    // @ApiResponse(responseCode = "201", description = "Estación creada
+    // correctamente")
     public ResponseEntity<?> agregar() {
         AggregatedData resultado = service.generarDatos();
         if (resultado == null) {

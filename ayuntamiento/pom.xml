@@ -59,6 +59,12 @@
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>twcam.proyecto</groupId>
+			<artifactId>ayuntamiento-data</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

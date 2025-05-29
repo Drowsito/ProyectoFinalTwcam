@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import twcam.proyecto.ayuntamiento.model.mongo.AggregatedData;
-import twcam.proyecto.ayuntamiento.model.mongo.AirQuality;
-import twcam.proyecto.ayuntamiento.model.mongo.EstacionAggregatedData;
-import twcam.proyecto.ayuntamiento.repository.AggregatedDataRepository;
-import twcam.shared.domain.Estacion;
-import twcam.shared.domain.Lectura;
+import twcam.proyecto.shared.Estacion;
+import twcam.proyecto.shared.Lectura;
+import twcam.proyecto.ayuntamientodata.model.mongo.AggregatedData;
+import twcam.proyecto.ayuntamientodata.model.mongo.AirQuality;
+import twcam.proyecto.ayuntamientodata.model.mongo.EstacionAggregatedData;
+import twcam.proyecto.ayuntamientodata.repository.AggregatedDataRepository;
 
 @Service
 public class AggregatedDataService {

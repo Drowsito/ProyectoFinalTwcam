@@ -17,9 +17,9 @@ import org.springframework.web.client.RestTemplate;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import twcam.shared.domain.Estacion;
-import twcam.shared.domain.EstadoDTO;
-import twcam.shared.domain.Parking;
+import twcam.proyecto.shared.Estacion;
+import twcam.proyecto.shared.EstadoDTO;
+import twcam.proyecto.shared.Parking;
 
 @RestController
 public class AyuntamientoController {

@@ -1,4 +1,4 @@
-package twcam.shared.domain;
+package twcam.proyecto.shared;
 
 import java.time.LocalDateTime;
 

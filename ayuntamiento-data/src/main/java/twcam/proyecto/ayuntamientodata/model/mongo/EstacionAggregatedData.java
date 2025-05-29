@@ -1,4 +1,4 @@
-package twcam.proyecto.ayuntamiento.model.mongo;
+package twcam.proyecto.ayuntamientodata.model.mongo;
 
 public class EstacionAggregatedData {
     private int id;
