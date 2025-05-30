@@ -205,6 +205,46 @@ public class AyuntamientoController {
         }
     }
 
+    @GetMapping("/estacionCercana")
+    @Operation(summary = "Obtiene la estación más cercana", description = "Devuelve la estación más cercana a la posición indicada (lat/lon)")
+    @ApiResponse(responseCode = "200", description = "Se ha encontrado una estación de medición cercana")
+    @ApiResponse(responseCode = "404", description = "No hay estaciones disponibles")
+    @ApiResponse(responseCode = "500", description = "Error de comunicación con el servicio de polución")
+    public ResponseEntity<?> estacionCercana(@RequestParam Float lat,
+            @RequestParam Float lon) {
+        try {
+            String urlPolucion = "http://localhost:8082/estaciones";
+            ResponseEntity<Estacion[]> response = restTemplate.getForEntity(urlPolucion, Estacion[].class);
+            Estacion[] estaciones = response.getBody();
+
+            if (estaciones == null || estaciones.length == 0) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No hay estaciones disponibles");
+            }
+
+            Estacion masCercana = null;
+            float distanciaMinima = Float.MAX_VALUE;
+
+            for (Estacion estacion : estaciones) {
+                float distancia = calcularDistancia(lat, lon, estacion.getLatitud(), estacion.getLongitud());
+                if (distancia < distanciaMinima) {
+                    distanciaMinima = distancia;
+                    masCercana = estacion;
+                }
+            }
+
+            if (masCercana == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("No se encontró una estación cercana");
+            }
+
+            return ResponseEntity.ok(masCercana);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error consultando el servicio de polución");
+        }
+    }
+
     private float calcularDistancia(float lat1, float lon1, float lat2, float lon2) {
         final float R = 6371f;
         float dLat = (float) Math.toRadians(lat2 - lat1);
