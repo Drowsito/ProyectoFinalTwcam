@@ -17,8 +17,6 @@ public class SecurityConfig {
                 .requestMatchers("/aparcamientos/**").permitAll()
                 .requestMatchers("/aparcamiento/*/status**").permitAll()
 
-                .requestMatchers("/aparcamiento").hasRole("admin")
-                .requestMatchers("/aparcamiento/**").hasRole("admin")
                 .requestMatchers("/evento/**").hasAuthority("SCOPE_aud_bicicletas_aparcamiento")
                 .anyRequest().authenticated()
             )
