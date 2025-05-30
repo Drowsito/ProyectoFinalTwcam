@@ -23,6 +23,7 @@ public class AggregatedDataController {
     @PostMapping("/aggregateData")
     @Operation(summary = "Obtiene datos de polución y de estaciones", description = "Obtiene el número medio de bicicletas disponibles y el número medio de cada tipo de contaminante atmosférico. Los datos de polución se obtienen de la estación más cercana a cada aparcamiento. Se invoca a intervalores regulares de tiempo y persiste en una base de datos NoSQL.")
     // TODO: Hacer los ApiResponse bien
+    // TODO: AÑADIR LO DE QUE SE EJECUTA SOLO!!! Añadir "rol" "servicio"?
     // @ApiResponse(responseCode = "201", description = "Estación creada
     // correctamente")
     public ResponseEntity<?> agregar() {
