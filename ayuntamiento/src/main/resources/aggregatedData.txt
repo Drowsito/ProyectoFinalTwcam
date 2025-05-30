@@ -1,0 +1,35 @@
+{
+  "timeStamp": "2025-05-29T20:58:37.292Z",
+  "aggregatedData": [
+    {
+      "id": 1,
+      "average_bikesAvailable": 3.5,
+      "air_quality": {
+        "nitricOxides": 10.6,
+        "nitrogenDioxides": 5.2,
+        "VOCs_NMHC": 6.8,
+        "PM2_5": 7.1
+      }
+    },
+    {
+      "id": 2,
+      "average_bikesAvailable": 10.6,
+      "air_quality": {
+        "nitricOxides": 3.0,
+        "nitrogenDioxides": 2.5,
+        "VOCs_NMHC": 4.3,
+        "PM2_5": 2.2
+      }
+    },
+    {
+      "id": 3,
+      "average_bikesAvailable": 0,
+      "air_quality": {
+        "nitricOxides": 5.4,
+        "nitrogenDioxides": 3.2,
+        "VOCs_NMHC": 5.1,
+        "PM2_5": 3.8
+      }
+    }
+  ]
+}

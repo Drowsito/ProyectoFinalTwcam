@@ -8,11 +8,7 @@ INSERT INTO estacion (id, direccion, latitud, longitud) VALUES ('3', 'Plaça de 
 -- MONGODB (todo hecho en GitBash):
 
 -- Ejecutar Mongo en docker (solo se hace una vez):
--- Polución:
 -- docker run -d --name mongodb -p 27017:27017 -e MONGO_INITDB_DATABASE=polucion mongo:7.0
--- Ayuntamiento:
--- docker run -d --name mongodbayunt -p 27018:27018 -e MONGO_INITDB_DATABASE=ayuntamiento mongo:7.0
 
 -- Ejecutar Mongo:
 -- docker exec -it mongodb mongosh
--- docker exec -it mongodbayunt mongosh
