@@ -19,8 +19,7 @@ public class SecurityConfig {
 
                 .requestMatchers("/aparcamiento").hasRole("admin")
                 .requestMatchers("/aparcamiento/**").hasRole("admin")
-                .requestMatchers("/evento/**").hasRole("aparcamiento")
-
+                .requestMatchers("/evento/**").hasAuthority("SCOPE_aud_bicicletas_aparcamiento")
                 .anyRequest().authenticated()
             )
             .oauth2ResourceServer(oauth2 -> oauth2.jwt());
