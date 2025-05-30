@@ -5,6 +5,7 @@ INSERT INTO estacion (id, direccion, latitud, longitud) VALUES ('1', 'Avinguda d
 INSERT INTO estacion (id, direccion, latitud, longitud) VALUES ('2', 'Carrer del Catedrátic José Beltrán Martinez, 2, 46980 Paterna, Valencia', 39.513506, -0.425217);
 INSERT INTO estacion (id, direccion, latitud, longitud) VALUES ('3', 'Plaça de l''Ajuntament, 1, 46002 València, Valencia', 39.46975, -0.37639);
 
+-- TODO: QUITAR ESTO:
 -- MONGODB (todo hecho en GitBash):
 
 -- Ejecutar Mongo en docker (solo se hace una vez):
