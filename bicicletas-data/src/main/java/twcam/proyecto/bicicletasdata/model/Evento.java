@@ -5,35 +5,30 @@ import java.time.LocalDateTime;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Document(collection = "eventos")
 public class Evento {
     @Id
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonIgnore
     private String mongoId;
 
+    @JsonProperty("parkingId")
     private String parkingId;
 
+    @JsonProperty("operation")
     private String operation;
 
+    @JsonProperty("bikesAvailable")
     private Integer bikesAvailable;
 
+    @JsonProperty("freeParkingSpots")
     private Integer freeParkingSpots;
 
+    @JsonProperty("timestamp")
     private LocalDateTime timestamp;
-
-    
-
-    public Evento(String mongoId, String parkingId, String operation, Integer bikesAvailable, Integer freeParkingSpots,
-            LocalDateTime timestamp) {
-        this.mongoId = mongoId;
-        this.parkingId = parkingId;
-        this.operation = operation;
-        this.bikesAvailable = bikesAvailable;
-        this.freeParkingSpots = freeParkingSpots;
-        this.timestamp = timestamp;
-    }
 
     public String getMongoId() {
         return mongoId;

@@ -19,14 +19,16 @@ public class ImportServiceMongo {
     private AggregatedDataRepository repository;
 
     public void importarDatos(Resource resource) {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule());
-        try {
-            AggregatedData aggregatedData = mapper.readValue(resource.getFile(), AggregatedData.class);
-            repository.save(aggregatedData);
-            System.out.println("Datos agregados insertados correctamente.");
-        } catch (IOException e) {
-            System.err.println("Error al importar datos: " + e.getMessage());
+        if (repository.count() == 0) {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule());
+            try {
+                AggregatedData aggregatedData = mapper.readValue(resource.getFile(), AggregatedData.class);
+                repository.save(aggregatedData);
+                System.out.println("Datos agregados insertados correctamente.");
+            } catch (IOException e) {
+                System.err.println("Error al importar datos: " + e.getMessage());
+            }
         }
     }
 }

@@ -3,7 +3,7 @@
   "aggregatedData": [
     {
       "id": 1,
-      "average_bikesAvailable": 3.5,
+      "average_bikesAvailable": 23.8,
       "air_quality": {
         "nitricOxides": 10.6,
         "nitrogenDioxides": 5.2,
@@ -13,7 +13,7 @@
     },
     {
       "id": 2,
-      "average_bikesAvailable": 10.6,
+      "average_bikesAvailable": 18.67,
       "air_quality": {
         "nitricOxides": 3.0,
         "nitrogenDioxides": 2.5,
@@ -23,7 +23,7 @@
     },
     {
       "id": 3,
-      "average_bikesAvailable": 0,
+      "average_bikesAvailable": 13.83,
       "air_quality": {
         "nitricOxides": 5.4,
         "nitrogenDioxides": 3.2,
