@@ -11,7 +11,7 @@ import twcam.proyecto.bicicletasdata.model.Evento;
 
 @Repository
 public interface EventoRepository extends MongoRepository<Evento, String> {
-    List<Evento> findByIdAndTimestamp(String id, LocalDateTime from, LocalDateTime to);
+    List<Evento> findByParkingIdAndTimestampBetween(String parkingId, LocalDateTime from, LocalDateTime to);
     
     Optional<Evento> findFirstByParkingIdOrderByTimestampDesc(String parkingId);
 

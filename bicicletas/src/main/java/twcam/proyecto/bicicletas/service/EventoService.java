@@ -29,7 +29,7 @@ public class EventoService {
     }
 
     public List<Evento> findByFechas(String id, LocalDateTime from, LocalDateTime to) {
-        return repo.findByIdAndTimestamp(id, from, to);
+        return repo.findByParkingIdAndTimestampBetween(id, from, to);
     }
 
     public List<EstadoDTO> top10ConMasBicisAhora() {
