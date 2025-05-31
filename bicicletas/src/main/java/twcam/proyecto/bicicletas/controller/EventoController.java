@@ -6,13 +6,12 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import twcam.proyecto.bicicletasdata.model.Evento;
-import twcam.proyecto.shared.OperacionDTO;
 import twcam.proyecto.bicicletas.service.EventoService;
+import twcam.proyecto.shared.OperacionDTO;
 
 import java.time.LocalDateTime;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

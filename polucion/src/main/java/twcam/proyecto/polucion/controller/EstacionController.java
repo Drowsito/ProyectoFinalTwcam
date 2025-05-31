@@ -26,11 +26,12 @@ public class EstacionController {
         this.estacionRepository = estacionRepository;
     }
 
-    // TODO: Añadir seguridad: rol "admin" (al OpenAPI también?)
     @PostMapping("/estacion")
-    @Operation(summary = "Añade una nueva estación de medición", description = "Permite al administrador registrar una nueva estación de medición con su id, dirección, latitud y longitud")
+    @Operation(summary = "Añade una nueva estación de medición", description = "Permite al administrador registrar una nueva estación de medición con su id, dirección, latitud y longitud", tags = {
+            "Operaciones accesibles desde la API del Ayuntamiento" })
     @ApiResponse(responseCode = "201", description = "Estación creada correctamente")
     @ApiResponse(responseCode = "400", description = "Faltan campos obligatorios como 'id' o 'dirección'")
+    @ApiResponse(responseCode = "401", description = "Sin permisos necesarios para esta petición")
     @ApiResponse(responseCode = "409", description = "Ya existe una estación con el id indicado")
     public ResponseEntity<?> crearEstacion(@RequestBody Estacion estacion) {
         // Valida si se han introducido el id o la dirección en el request
@@ -50,10 +51,11 @@ public class EstacionController {
         return ResponseEntity.status(HttpStatus.CREATED).body(nueva);
     }
 
-    // TODO: Añadir seguridad: rol "admin" (al OpenAPI también?)
     @DeleteMapping("/estacion/{id}")
-    @Operation(summary = "Elimina una estación de medición", description = "Elimina una estación de medición de la base de datos según su id")
+    @Operation(summary = "Elimina una estación de medición", description = "Elimina una estación de medición de la base de datos según su id", tags = {
+            "Operaciones accesibles desde la API del Ayuntamiento" })
     @ApiResponse(responseCode = "200", description = "Estación eliminada correctamente")
+    @ApiResponse(responseCode = "401", description = "Sin permisos necesarios para esta petición")
     @ApiResponse(responseCode = "404", description = "No se encontró la estación con ese id")
     public ResponseEntity<?> eliminarEstacion(@PathVariable String id) {
         // Comprueba si existe una estación con ese id
@@ -67,11 +69,12 @@ public class EstacionController {
         return ResponseEntity.ok("Estación con id " + id + " eliminada correctamente");
     }
 
-    // TODO: Añadir seguridad: rol "admin" (al OpenAPI también?)
     @PutMapping("/estacion/{id}")
-    @Operation(summary = "Modifica una estación existente", description = "Actualiza los datos (dirección, latitud y longitud) de una estación de medición identificada por su id")
+    @Operation(summary = "Modifica una estación existente", description = "Actualiza los datos (dirección, latitud y longitud) de una estación de medición identificada por su id", tags = {
+            "Operaciones accesibles desde la API del Ayuntamiento" })
     @ApiResponse(responseCode = "200", description = "Estación actualizada correctamente")
     @ApiResponse(responseCode = "400", description = "Faltan campos obligatorios en la petición")
+    @ApiResponse(responseCode = "401", description = "Sin permisos necesarios para esta petición")
     @ApiResponse(responseCode = "404", description = "No existe una estación con el id indicado")
     public ResponseEntity<?> actualizarEstacion(@PathVariable String id, @RequestBody Estacion estacion) {
         // Comprueba si existe una estación con ese id
@@ -94,7 +97,8 @@ public class EstacionController {
         return ResponseEntity.ok(estacionBD);
     }
 
-    @Operation(summary = "Obtiene todas las estaciones", description = "Obtiene un listado con todas las estaciones de medición de la aplicación junto con sus datos")
+    @Operation(summary = "Obtiene todas las estaciones", description = "Obtiene un listado con todas las estaciones de medición de la aplicación junto con sus datos", tags = {
+            "Operaciones públicas" })
     @ApiResponse(responseCode = "200", description = "Devuelve el listado de estaciones")
     @GetMapping("/estaciones")
     public List<Estacion> getAllEstaciones() {

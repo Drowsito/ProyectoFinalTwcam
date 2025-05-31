@@ -15,15 +15,19 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/v1/api-spec/**").permitAll()
+                        .requestMatchers("/api/v1/swagger-ui/**").permitAll()
+                        
                         .requestMatchers("/aparcamientoCercano**").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/aggregatedData").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/aggregatedData").permitAll()
 
                         .requestMatchers("/aparcamiento").hasAuthority("SCOPE_aud_ayuntamiento_admin")
                         .requestMatchers("/aparcamiento/*").hasAuthority("SCOPE_aud_ayuntamiento_admin")
                         .requestMatchers("/estacion").hasAuthority("SCOPE_aud_ayuntamiento_admin")
                         .requestMatchers("/estacion/*").hasAuthority("SCOPE_aud_ayuntamiento_admin")
 
-                        .requestMatchers(HttpMethod.POST,"/aggregateData").hasAuthority("SCOPE_aud_ayuntamiento_servicio")
+                        .requestMatchers(HttpMethod.POST, "/aggregateData")
+                        .hasAuthority("SCOPE_aud_ayuntamiento_servicio")
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt());
 

@@ -15,11 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import twcam.proyecto.poluciondata.model.mongo.Lectura;
 import twcam.proyecto.poluciondata.repository.EstacionRepository;
 import twcam.proyecto.poluciondata.repository.LecturaRepository;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 
+@SecurityScheme(name = "bearerAuth", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "JWT")
 @RestController
 public class LecturaController {
 
@@ -33,11 +36,12 @@ public class LecturaController {
         this.estacionRepository = estacionRepository;
     }
 
-    // TODO: Añadir seguridad: rol "estacion" (al OpenAPI también?)
     @PostMapping("/estacion/{id}")
-    @Operation(summary = "Registra una nueva lectura de sensores", description = "Guarda una lectura de calidad del aire enviada por una estación de medición")
+    @Operation(summary = "Registra una nueva lectura de sensores", description = "Guarda una lectura de calidad del aire enviada por una estación de medición", tags = {
+            "Operaciones que necesitan el rol 'estacion'" }, security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponse(responseCode = "201", description = "Lectura registrada correctamente")
     @ApiResponse(responseCode = "400", description = "Petición mal escrita")
+    @ApiResponse(responseCode = "401", description = "Sin permisos necesarios para esta petición")
     @ApiResponse(responseCode = "404", description = "La estación con ese id no existe")
     public ResponseEntity<?> registrarLectura(@PathVariable String id, @RequestBody Lectura lectura) {
         if (!estacionRepository.existsById(id)) {
@@ -56,7 +60,8 @@ public class LecturaController {
     }
 
     @GetMapping("/estacion/{id}/status")
-    @Operation(summary = "Obtener la última lectura o las lecturas por intervalo", description = "Devuelve la última lectura de una estación o todas las lecturas en un intervalo si se pasan parámetros 'from' y 'to'")
+    @Operation(summary = "Obtener la última lectura o las lecturas por intervalo", description = "Devuelve la última lectura de una estación o todas las lecturas en un intervalo si se pasan parámetros 'from' y 'to'", tags = {
+            "Operaciones públicas" })
     @ApiResponse(responseCode = "200", description = "Lecturas devueltas correctamente")
     @ApiResponse(responseCode = "400", description = "Fechas mal escritas")
     @ApiResponse(responseCode = "404", description = "No se encontraron lecturas")

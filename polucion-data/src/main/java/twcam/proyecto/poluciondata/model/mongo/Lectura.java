@@ -27,10 +27,10 @@ public class Lectura {
     private float nitrogenDioxides;
 
     @JsonProperty("VOCs_NMHC")
-    private float VOCs_NMHC;
+    private float vocs_nmhc;
 
     @JsonProperty("PM2_5")
-    private float PM2_5;
+    private float pm2_5;
 
     public String getMongoId() {
         return mongoId;
@@ -72,19 +72,20 @@ public class Lectura {
         this.nitrogenDioxides = nitrogenDioxides;
     }
 
-    public float getVOCs_NMHC() {
-        return VOCs_NMHC;
+    public float getVocs_nmhc() {
+        return vocs_nmhc;
     }
 
-    public void setVOCs_NMHC(float VOCs_NMHC) {
-        this.VOCs_NMHC = VOCs_NMHC;
+    public void setVocs_nmhc(float vocs_nmhc) {
+        this.vocs_nmhc = vocs_nmhc;
     }
 
-    public float getPM2_5() {
-        return PM2_5;
+    public float getPm2_5() {
+        return pm2_5;
     }
 
-    public void setPM2_5(float PM2_5) {
-        this.PM2_5 = PM2_5;
+    public void setPm2_5(float pm2_5) {
+        this.pm2_5 = pm2_5;
     }
+
 }

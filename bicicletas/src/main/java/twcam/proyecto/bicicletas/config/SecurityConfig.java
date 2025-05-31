@@ -20,6 +20,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/v1/api-spec/**").permitAll()
+                        .requestMatchers("/api/v1/swagger-ui/**").permitAll()
+                        
                         .requestMatchers("/aparcamientos/**").permitAll()
                         .requestMatchers("/aparcamiento/*/status*").permitAll()
                         .requestMatchers("/aparcamiento/available").permitAll()
