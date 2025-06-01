@@ -1,3 +1,13 @@
+USE aparcamiento;
+
+CREATE TABLE IF NOT EXISTS parking (
+  idparking VARCHAR(255) PRIMARY KEY,
+  direction VARCHAR(255) NOT NULL,
+  bikes_capacity INT NOT NULL,
+  latitude FLOAT NOT NULL,
+  longitude FLOAT NOT NULL
+);
+
 DELETE FROM parking;
 
 INSERT INTO parking (idparking, direction, bikes_capacity, latitude, longitude)
