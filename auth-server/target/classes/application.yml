@@ -12,3 +12,4 @@ keycloak:
     adminUser:
       username: admin
       password: password
+    realmImportFile: proyecto-final-realm.json
