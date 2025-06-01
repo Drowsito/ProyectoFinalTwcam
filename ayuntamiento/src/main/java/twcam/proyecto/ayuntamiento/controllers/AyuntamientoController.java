@@ -18,11 +18,16 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import twcam.proyecto.shared.Estacion;
 import twcam.proyecto.shared.EstadoDTO;
 import twcam.proyecto.shared.Parking;
 
+@SecurityScheme(name = "bearerAuth", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "JWT")
 @RestController
 public class AyuntamientoController {
 
@@ -33,12 +38,14 @@ public class AyuntamientoController {
     }
 
     @PostMapping("/estacion")
-    @Operation(summary = "Crea una estación", description = "Crea una estación redirigiendo la petición al microservicio 'polucion'")
+    @Operation(summary = "Crea una estación", description = "Crea una estación redirigiendo la petición al microservicio 'polucion'", tags = {
+            "Operaciones que necesitan el rol 'admin'" }, security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponse(responseCode = "201", description = "Estación creada correctamente")
     @ApiResponse(responseCode = "400", description = "Faltan campos obligatorios como 'id' o 'dirección'")
+    @ApiResponse(responseCode = "401", description = "Sin permisos necesarios para esta petición")
     @ApiResponse(responseCode = "409", description = "Ya existe una estación con el id indicado")
     public ResponseEntity<?> crearEstacion(@RequestBody Estacion estacion,
-            @RequestHeader("Authorization") String authHeader) {
+            @Parameter(hidden = true) @RequestHeader("Authorization") String authHeader) {
         String urlPolucion = "http://localhost:8082/estacion";
 
         try {
@@ -58,11 +65,13 @@ public class AyuntamientoController {
     }
 
     @DeleteMapping("/estacion/{id}")
-    @Operation(summary = "Elimina una estación", description = "Elimina una estación redirigiendo la petición al microservicio 'polucion'")
+    @Operation(summary = "Elimina una estación", description = "Elimina una estación redirigiendo la petición al microservicio 'polucion'", tags = {
+            "Operaciones que necesitan el rol 'admin'" }, security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponse(responseCode = "200", description = "Estación eliminada correctamente")
+    @ApiResponse(responseCode = "401", description = "Sin permisos necesarios para esta petición")
     @ApiResponse(responseCode = "404", description = "No se encontró la estación con ese id")
     public ResponseEntity<?> eliminarEstacion(@PathVariable String id,
-            @RequestHeader("Authorization") String authHeader) {
+            @Parameter(hidden = true) @RequestHeader("Authorization") String authHeader) {
         String urlPolucion = "http://localhost:8082/estacion/" + id;
 
         try {
@@ -85,13 +94,15 @@ public class AyuntamientoController {
     }
 
     @PutMapping("/estacion/{id}")
-    @Operation(summary = "Modifica una estación", description = "Modifica una estación redirigiendo la petición al microservicio 'polucion'")
+    @Operation(summary = "Modifica una estación", description = "Modifica una estación redirigiendo la petición al microservicio 'polucion'", tags = {
+            "Operaciones que necesitan el rol 'admin'" }, security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponse(responseCode = "200", description = "Estación actualizada correctamente")
     @ApiResponse(responseCode = "400", description = "Faltan campos obligatorios en la petición")
+    @ApiResponse(responseCode = "401", description = "Sin permisos necesarios para esta petición")
     @ApiResponse(responseCode = "404", description = "No existe una estación con el id indicado")
     public ResponseEntity<?> modificarEstacion(@PathVariable String id, @RequestBody Estacion estacion,
-            @RequestHeader("Authorization") String authHeader) {
-        String urlPolucion = "http://localhost:8082/estacion/" + estacion.getId();
+            @Parameter(hidden = true) @RequestHeader("Authorization") String authHeader) {
+        String urlPolucion = "http://localhost:8082/estacion/" + id;
 
         try {
             HttpHeaders headers = new HttpHeaders();
@@ -110,12 +121,14 @@ public class AyuntamientoController {
     }
 
     @PostMapping("/aparcamiento")
-    @Operation(summary = "Crea un aparcamiento", description = "Crea un aparcamiento redirigiendo la petición al microservicio 'bicicletas'")
+    @Operation(summary = "Crea un aparcamiento", description = "Crea un aparcamiento redirigiendo la petición al microservicio 'bicicletas'", tags = {
+            "Operaciones que necesitan el rol 'admin'" }, security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponse(responseCode = "201", description = "Aparcamiento creado correctamente")
     @ApiResponse(responseCode = "400", description = "Faltan campos obligatorios como 'id' o 'dirección'")
+    @ApiResponse(responseCode = "401", description = "Sin permisos necesarios para esta petición")
     @ApiResponse(responseCode = "409", description = "Ya existe un aparcamiento con el id indicado")
     public ResponseEntity<?> crearParking(@RequestBody Parking parking,
-            @RequestHeader("Authorization") String authHeader) {
+            @Parameter(hidden = true) @RequestHeader("Authorization") String authHeader) {
         String urlBicicleta = "http://localhost:8081/aparcamiento";
 
         try {
@@ -135,11 +148,13 @@ public class AyuntamientoController {
     }
 
     @DeleteMapping("/aparcamiento/{id}")
-    @Operation(summary = "Elimina un parking", description = "Elimina un parking redirigiendo la petición al microservicio 'bicicletas'")
+    @Operation(summary = "Elimina un parking", description = "Elimina un parking redirigiendo la petición al microservicio 'bicicletas'", tags = {
+            "Operaciones que necesitan el rol 'admin'" }, security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponse(responseCode = "200", description = "Parking eliminado correctamente")
+    @ApiResponse(responseCode = "401", description = "Sin permisos necesarios para esta petición")
     @ApiResponse(responseCode = "404", description = "No se encontró el parking con ese id")
     public ResponseEntity<?> eliminarParking(@PathVariable String id,
-            @RequestHeader("Authorization") String authHeader) {
+            @Parameter(hidden = true) @RequestHeader("Authorization") String authHeader) {
         String urlBicicleta = "http://localhost:8081/aparcamiento/" + id;
 
         try {
@@ -162,12 +177,14 @@ public class AyuntamientoController {
     }
 
     @PutMapping("/aparcamiento/{id}")
-    @Operation(summary = "Modifica un parking", description = "Modifica una parking redirigiendo la petición al microservicio 'bicicletas'")
+    @Operation(summary = "Modifica un parking", description = "Modifica una parking redirigiendo la petición al microservicio 'bicicletas'", tags = {
+            "Operaciones que necesitan el rol 'admin'" }, security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponse(responseCode = "200", description = "Parking actualizado correctamente")
     @ApiResponse(responseCode = "400", description = "Faltan campos obligatorios en la petición")
+    @ApiResponse(responseCode = "401", description = "Sin permisos necesarios para esta petición")
     @ApiResponse(responseCode = "404", description = "No existe una parking con el id indicado")
     public ResponseEntity<?> modificarParking(@PathVariable String id, @RequestBody Parking parking,
-            @RequestHeader("Authorization") String authHeader) {
+            @Parameter(hidden = true) @RequestHeader("Authorization") String authHeader) {
         String urlBicicleta = "http://localhost:8081/aparcamiento/" + id;
 
         try {
@@ -188,7 +205,8 @@ public class AyuntamientoController {
     }
 
     @GetMapping("/aparcamientoCercano")
-    @Operation(summary = "Aparcamiento más cercano con bicis disponibles", description = "Devuelve el más cercano a la posición indicada")
+    @Operation(summary = "Aparcamiento más cercano con bicis disponibles", description = "Devuelve el más cercano a la posición indicada", tags = {
+            "Operaciones públicas" })
     @ApiResponse(responseCode = "200", description = "Se ha encontrado un aparcamiento disponible cercano")
     @ApiResponse(responseCode = "404", description = "No hay aparcamientos disponibles o con bicis cerca de la ubicación dada")
     @ApiResponse(responseCode = "500", description = "Error de comunicación con el servicio de bicicletas")
@@ -233,7 +251,8 @@ public class AyuntamientoController {
     }
 
     @GetMapping("/estacionCercana")
-    @Operation(summary = "Obtiene la estación más cercana", description = "Devuelve la estación más cercana a la posición indicada (lat/lon)")
+    @Operation(summary = "Obtiene la estación más cercana", description = "Devuelve la estación más cercana a la posición indicada (lat/lon)", tags = {
+            "Operaciones públicas" })
     @ApiResponse(responseCode = "200", description = "Se ha encontrado una estación de medición cercana")
     @ApiResponse(responseCode = "404", description = "No hay estaciones disponibles")
     @ApiResponse(responseCode = "500", description = "Error de comunicación con el servicio de polución")
@@ -272,6 +291,15 @@ public class AyuntamientoController {
         }
     }
 
+    /**
+     * Función auxiliar que calcula la distancia entre dos puntos dados
+     * 
+     * @param lat1 Latitud 1
+     * @param lon1 Longitud 1
+     * @param lat2 Latitud 2
+     * @param lon2 Longitud 2
+     * @return Distancia entre los dos puntos
+     */
     private float calcularDistancia(float lat1, float lon1, float lat2, float lon2) {
         final float R = 6371f;
         float dLat = (float) Math.toRadians(lat2 - lat1);
