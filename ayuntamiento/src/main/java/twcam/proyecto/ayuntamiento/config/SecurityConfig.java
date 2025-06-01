@@ -17,8 +17,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/api-spec/**").permitAll()
                         .requestMatchers("/api/v1/swagger-ui/**").permitAll()
-                        
+
                         .requestMatchers("/aparcamientoCercano**").permitAll()
+                        .requestMatchers("/estacionCercana**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/aggregatedData").permitAll()
 
                         .requestMatchers("/aparcamiento").hasAuthority("SCOPE_aud_ayuntamiento_admin")

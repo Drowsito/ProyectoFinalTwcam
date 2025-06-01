@@ -2,6 +2,8 @@ package twcam.proyecto.shared;
 
 import java.time.Instant;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Lectura {
     private int id;
 
@@ -11,8 +13,10 @@ public class Lectura {
 
     private float nitrogenDioxides;
 
+    @JsonProperty("VOCs_NMHC")
     private float VOCs_NMHC;
 
+    @JsonProperty("PM2_5")
     private float PM2_5;
 
     public int getId() {

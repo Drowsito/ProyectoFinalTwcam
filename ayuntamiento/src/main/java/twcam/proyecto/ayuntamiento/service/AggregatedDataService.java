@@ -5,11 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import twcam.proyecto.shared.Estacion;
-import twcam.proyecto.shared.Evento;
+import twcam.proyecto.shared.EstadoDTO;
 import twcam.proyecto.shared.Lectura;
 import twcam.proyecto.shared.Parking;
 import twcam.proyecto.ayuntamientodata.model.mongo.AggregatedData;
@@ -28,51 +27,49 @@ public class AggregatedDataService {
         this.repository = repository;
     }
 
-    // TODO: Repasar este método y mirarlo bien. Básicamente generado con Chati
     public AggregatedData generarDatos() {
+        List<EstacionAggregatedData> resultado = new ArrayList<>();
         String baseUrlBicis = "http://localhost:8081";
         String baseUrlPolucion = "http://localhost:8082";
         String baseUrlAyuntamiento = "http://localhost:8083";
 
-        // 1. Obtener lista de aparcamientos
-        Parking[] aparcamientos = restTemplate.getForObject(baseUrlBicis + "/aparcamiento", Parking[].class);
+        // Se obtiene la lista de aparcamientos
+        Parking[] aparcamientos = restTemplate.getForObject(baseUrlBicis + "/aparcamientos", Parking[].class);
         if (aparcamientos == null || aparcamientos.length == 0)
             return null;
 
-        List<EstacionAggregatedData> resultado = new ArrayList<>();
-
+        // Se recorre cada uno de los aparcamientos
         for (Parking parking : aparcamientos) {
+            // Se obtiene el id de este aparcamiento
             String parkingId = parking.getIdparking();
 
-            // 2. Calcular media de bicis disponibles para ese aparcamiento
-            Evento[] registrosBicis = restTemplate.getForObject(
-                    baseUrlBicis + "/aparcamiento/" + parkingId + "/status?from=2000-01-01T00:00:00Z&to="
-                            + Instant.now().toString(),
-                    Evento[].class);
+            // Se buscan los registros del aparcamiento entre el año 2000 y ahora mismo
+            EstadoDTO[] registrosBicis = restTemplate.getForObject(baseUrlBicis + "/aparcamiento/" + parkingId
+                    + "/status?from=2000-01-01T00:00:00Z&to=" + Instant.now().toString(), EstadoDTO[].class);
 
+            // Se calcula la media de bicis disponibles para ese
+            // aparcamiento recorriendo cada registro del aparcamiento
             float mediaBicis = 0;
             if (registrosBicis != null && registrosBicis.length > 0) {
                 int suma = 0;
-                for (Evento r : registrosBicis)
-                    suma += r.getBikesAvailable();
+
+                for (EstadoDTO r : registrosBicis)
+                    suma += r.bikesAvailable();
+
                 mediaBicis = (float) suma / registrosBicis.length;
             }
 
-            // 3. Obtener la estación más cercana usando el endpoint de ayuntamiento
-            Estacion estacionCercana = restTemplate.getForObject(
-                    baseUrlAyuntamiento + "/estacionCercana?lat=" + parking.getLatitude()
-                            + "&lon=" + parking.getLongitude(),
-                    Estacion.class);
-
+            // Se obtiene la estación más cercana al aparcamiento
+            Estacion estacionCercana = restTemplate.getForObject(baseUrlAyuntamiento + "/estacionCercana?lat="
+                    + parking.getLatitude() + "&lon=" + parking.getLongitude(), Estacion.class);
             if (estacionCercana == null)
-                continue; // Saltamos si no se encuentra estación cercana
+                continue;
 
-            // 4. Calcular media de contaminantes para esa estación
-            Lectura[] lecturas = restTemplate.getForObject(
-                    baseUrlPolucion + "/estacion/" + estacionCercana.getId() + "/status?from=2000-01-01T00:00:00Z&to="
-                            + Instant.now().toString(),
-                    Lectura[].class);
+            // Se obtienen las lecturas de esa estación entre el año 2000 y ahora mismo
+            Lectura[] lecturas = restTemplate.getForObject(baseUrlPolucion + "/estacion/" + estacionCercana.getId()
+                    + "/status?from=2000-01-01T00:00:00Z&to=" + Instant.now().toString(), Lectura[].class);
 
+            // Se calcula la media de contaminantes para esa estación
             float nOx = 0, nDiox = 0, vocs = 0, pm = 0;
             if (lecturas != null && lecturas.length > 0) {
                 for (Lectura l : lecturas) {
@@ -81,6 +78,7 @@ public class AggregatedDataService {
                     vocs += l.getVOCs_NMHC();
                     pm += l.getPM2_5();
                 }
+
                 int n = lecturas.length;
                 nOx /= n;
                 nDiox /= n;
@@ -88,22 +86,24 @@ public class AggregatedDataService {
                 pm /= n;
             }
 
+            // Se monta el AirQuality para el documento Mongo
             AirQuality calidad = new AirQuality();
             calidad.setNitricOxides(nOx);
             calidad.setNitrogenDioxides(nDiox);
             calidad.setVocs_nmhc(vocs);
             calidad.setPm2_5(pm);
 
-            // 5. Montar el agregado para este aparcamiento
+            // Se monta el EstacionAggregatedData para el documento Mongo
             EstacionAggregatedData e = new EstacionAggregatedData();
             e.setId(Integer.parseInt(parkingId));
             e.setAverage_bikesAvailable(mediaBicis);
             e.setAir_quality(calidad);
 
+            // Se guarda el resultado
             resultado.add(e);
         }
 
-        // 6. Crear el documento y guardarlo en MongoDB
+        // Se crea el documento con la fecha actual y se guarda en MongoDB
         AggregatedData doc = new AggregatedData();
         doc.setTimeStamp(Instant.now());
         doc.setAggregatedData(resultado);

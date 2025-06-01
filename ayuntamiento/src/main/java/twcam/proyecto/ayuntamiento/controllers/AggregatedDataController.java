@@ -26,14 +26,15 @@ public class AggregatedDataController {
     @PostMapping("/aggregateData")
     @Operation(summary = "Obtiene datos de polución y de estaciones", description = "Obtiene el número medio de bicicletas disponibles y el número medio de cada tipo de contaminante atmosférico. Los datos de polución se obtienen de la estación más cercana a cada aparcamiento. Se invoca a intervalores regulares de tiempo y persiste en una base de datos NoSQL.", tags = {
             "Operaciones que necesitan el rol 'servicio'" }, security = @SecurityRequirement(name = "bearerAuth"))
-    // TODO: Poner respuestas del OpenAPI!!!!!!
-    // @ApiResponse(responseCode = "201", description = "Estación creada correctamente")
-    @ApiResponse(responseCode = "401", description = "Sin permisos necesarios para esta petición")
+    @ApiResponse(responseCode = "200", description = "Documento generado")
+    @ApiResponse(responseCode = "400", description = "Error al generar el documento")
     public ResponseEntity<?> agregar() {
         AggregatedData resultado = service.generarDatos();
+
         if (resultado == null) {
             return ResponseEntity.badRequest().body("No se pudo generar el documento");
         }
+
         return ResponseEntity.ok(resultado);
     }
 
@@ -48,6 +49,7 @@ public class AggregatedDataController {
         if (ultimo == null) {
             return ResponseEntity.status(404).body("No hay datos agregados.");
         }
+
         return ResponseEntity.ok(ultimo);
     }
 }
