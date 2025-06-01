@@ -35,7 +35,8 @@ public class ParkingController {
     }
 
     @GetMapping("/aparcamientos")
-    @Operation(summary = "Get parkings", description = "Muestra todos los aparcamientos")
+    @Operation(summary = "Get parkings", description = "Muestra todos los aparcamientos", tags = {
+            "Operaciones públicas" })
     public ResponseEntity<?> listAll() {
         List<Parking> parkings = parkingService.findAll();
         if (parkings.isEmpty()) {
@@ -45,9 +46,11 @@ public class ParkingController {
     }
 
     @PostMapping("/aparcamiento")
-    @Operation(summary = "Add parking", description = "Añade un nuevo aparcamiento")
+    @Operation(summary = "Add parking", description = "Añade un nuevo aparcamiento", tags = {
+            "Operaciones accesibles desde la API del Ayuntamiento" })
     @ApiResponse(responseCode = "201", description = "Aparcamiento creado correctamente")
     @ApiResponse(responseCode = "400", description = "Faltan campos obligatorios como 'id' o 'dirección'")
+    @ApiResponse(responseCode = "401", description = "Sin permisos necesarios para esta petición")
     @ApiResponse(responseCode = "409", description = "Ya existe un aparcamiento con el id indicado")
     public ResponseEntity<?> add(@RequestBody Parking parking) {
         String errorValidacion = parkingService.validarCamposObligatorios(parking);
@@ -66,9 +69,11 @@ public class ParkingController {
     }
 
     @PutMapping("/aparcamiento/{id}")
-    @Operation(summary = "Update parking", description = "Modifica un parking")
+    @Operation(summary = "Update parking", description = "Modifica un parking", tags = {
+            "Operaciones accesibles desde la API del Ayuntamiento" })
     @ApiResponse(responseCode = "200", description = "Parking actualizado correctamente")
     @ApiResponse(responseCode = "400", description = "Faltan campos obligatorios en la petición")
+    @ApiResponse(responseCode = "401", description = "Sin permisos necesarios para esta petición")
     @ApiResponse(responseCode = "404", description = "No existe una parking con el id indicado")
     public ResponseEntity<?> update(@PathVariable String id, @RequestBody Parking parking) {
         String errorValidacion = parkingService.validarCamposObligatorios(parking);
@@ -87,8 +92,10 @@ public class ParkingController {
     }
 
     @DeleteMapping("/aparcamiento/{id}")
-    @Operation(summary = "Delete parking", description = "Elimina un parking pasado un id")
+    @Operation(summary = "Delete parking", description = "Elimina un parking pasado un id", tags = {
+            "Operaciones accesibles desde la API del Ayuntamiento" })
     @ApiResponse(responseCode = "200", description = "Parking eliminado correctamente")
+    @ApiResponse(responseCode = "401", description = "Sin permisos necesarios para esta petición")
     @ApiResponse(responseCode = "404", description = "No se encontró el parking con ese id")
     public ResponseEntity<?> delete(@PathVariable String id) {
         boolean exists = parkingService.existsById(id);
@@ -101,7 +108,8 @@ public class ParkingController {
     }
 
     @GetMapping("/aparcamiento/{id}/status")
-    @Operation(summary = "Get the status of a parking", description = "Muestra el estado de un parking pasado el id")
+    @Operation(summary = "Get the status of a parking", description = "Muestra el estado de un parking pasado el id", tags = {
+            "Operaciones públicas" })
     public ResponseEntity<?> statusParking(@PathVariable String id) {
         if (!parkingService.existsById(id)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -120,7 +128,8 @@ public class ParkingController {
     }
 
     @GetMapping(value = "/aparcamiento/{id}/status", params = { "from", "to" })
-    @Operation(summary = "Get events by dates", description = "Muestra los cambios de estado de una parada en un cierto espacio de tiempo")
+    @Operation(summary = "Get events by dates", description = "Muestra los cambios de estado de una parada en un cierto espacio de tiempo", tags = {
+            "Operaciones públicas" })
     public ResponseEntity<?> eventsBetweenDates(
             @PathVariable String id,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime from,
@@ -146,7 +155,8 @@ public class ParkingController {
     }
 
     @GetMapping("/aparcamiento/available")
-    @Operation(summary = "Top 10 parkings with free bikes", description = "Consulta los 10 parkings con más bicis disponibles en este momento")
+    @Operation(summary = "Top 10 parkings with free bikes", description = "Consulta los 10 parkings con más bicis disponibles en este momento", tags = {
+            "Operaciones públicas" })
     public ResponseEntity<?> top10Ahora() {
         List<EstadoDTO> lista = eventoService.top10ConMasBicisAhora();
         if (lista.isEmpty()) {

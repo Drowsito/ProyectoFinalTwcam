@@ -23,7 +23,7 @@ import twcam.proyecto.bicicletasdata.imports.ImportServiceMongo;
 @EnableJpaRepositories(basePackages = "twcam.proyecto.bicicletasdata.repository")
 @EnableMongoRepositories(basePackages = "twcam.proyecto.bicicletasdata.repository")
 @EntityScan(basePackages = "twcam.proyecto.bicicletasdata.model")
-@OpenAPIDefinition(info = @Info(title = "API de bicicletas", version = "v1", contact = @Contact(name = "Pablo Gómez/Diego Ruiz", email = "pagobo2@alumni.uv.es/dieruiz4@alumni.uv.es"), license = @License(name = "Apache 2.0", url = "https://www.apache.org/licenses/LICENSE-2.0"), description = "API que contiene todas las operaciones necesarias para la gestión de las bicicletas"), servers = @Server(url = "${api.server.url}", description = "Production"))
+@OpenAPIDefinition(info = @Info(title = "API de bicicletas", version = "v1", contact = @Contact(name = "Pablo Gómez/Diego Ruiz", email = "pagobo2@alumni.uv.es/dieruiz4@alumni.uv.es"), license = @License(name = "Apache 2.0", url = "https://www.apache.org/licenses/LICENSE-2.0"), description = "API que contiene todas las operaciones necesarias para la gestión de las bicicletas"), servers = @Server(url = "/", description = "Production"))
 public class BicicletasApplication implements CommandLineRunner {
   @Autowired
   private ImportServiceMongo importServiceMongo;

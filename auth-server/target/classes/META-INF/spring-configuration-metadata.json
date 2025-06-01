@@ -19,6 +19,16 @@
       "sourceType": "com.marcuschiu.auth.config.KeycloakServerProperties$AdminUser"
     },
     {
+      "name": "keycloak.server.admin-user.password",
+      "type": "java.lang.String",
+      "sourceType": "com.marcuschiu.auth.config.KeycloakServerProperties$AdminUser"
+    },
+    {
+      "name": "keycloak.server.admin-user.username",
+      "type": "java.lang.String",
+      "sourceType": "com.marcuschiu.auth.config.KeycloakServerProperties$AdminUser"
+    },
+    {
       "name": "keycloak.server.admin-user.username",
       "type": "java.lang.String",
       "sourceType": "com.marcuschiu.auth.config.KeycloakServerProperties$AdminUser"

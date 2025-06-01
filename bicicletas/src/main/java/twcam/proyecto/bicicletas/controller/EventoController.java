@@ -4,7 +4,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import twcam.proyecto.bicicletasdata.model.Evento;
 import twcam.proyecto.bicicletas.service.EventoService;
 import twcam.proyecto.shared.OperacionDTO;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+@SecurityScheme(name = "bearerAuth", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "JWT")
 @RestController
 @RequestMapping("/evento")
 public class EventoController {
@@ -26,9 +30,11 @@ public class EventoController {
     }
 
     @PostMapping("/{id}")
-    @Operation(summary = "Add evento", description = "Añade un nuevo evento a un aparcamiento determinado")
+    @Operation(summary = "Add evento", description = "Añade un nuevo evento a un aparcamiento determinado", tags = {
+            "Operaciones que necesitan el rol 'aparcamiento'" }, security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponse(responseCode = "201", description = "Evento creado correctamente")
     @ApiResponse(responseCode = "400", description = "Operación no válida")
+    @ApiResponse(responseCode = "401", description = "Sin permisos necesarios para esta petición")
     @ApiResponse(responseCode = "404", description = "No se encontró el aparcamiento")
     public ResponseEntity<?> crearEvento(@PathVariable String id, @RequestBody OperacionDTO operacionDTO) {
         String operacion = operacionDTO.operation();
@@ -84,7 +90,7 @@ public class EventoController {
 
         return ResponseEntity
                 .status(201)
-                .body("Evento con id " + guardado.getMongoId() +" almacenado con exito");
+                .body("Evento con id " + guardado.getMongoId() + " almacenado con exito");
     }
 
 }
