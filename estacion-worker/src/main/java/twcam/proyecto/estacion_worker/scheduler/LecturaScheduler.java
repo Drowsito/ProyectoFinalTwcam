@@ -1,4 +1,4 @@
-package main.java.twcam.proyecto.estacion_worker.scheduler;
+package twcam.proyecto.estacion_worker.scheduler;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
