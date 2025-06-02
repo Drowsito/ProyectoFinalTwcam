@@ -1,4 +1,3 @@
--- En teoría esto no se está usando. Lo dejo para guardar todos los scripts que uso.
 USE polucion;
 
 CREATE TABLE IF NOT EXISTS estacion (

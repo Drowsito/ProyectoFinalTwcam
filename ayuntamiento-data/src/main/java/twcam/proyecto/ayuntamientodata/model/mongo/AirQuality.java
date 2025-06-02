@@ -1,8 +1,5 @@
 package twcam.proyecto.ayuntamientodata.model.mongo;
 
-import org.springframework.data.annotation.PersistenceCreator;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AirQuality {
