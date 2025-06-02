@@ -1,6 +1,7 @@
 package twcam.proyecto.polucion.controller;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,16 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import twcam.proyecto.polucion.service.EstacionService;
 import twcam.proyecto.poluciondata.model.Estacion;
-import twcam.proyecto.poluciondata.repository.EstacionRepository;
 
 @RestController
 public class EstacionController {
 
-    private final EstacionRepository estacionRepository;
+    private final EstacionService estacionService;
 
-    public EstacionController(EstacionRepository estacionRepository) {
-        this.estacionRepository = estacionRepository;
+    public EstacionController(EstacionService estacionService) {
+        this.estacionService = estacionService;
     }
 
     @PostMapping("/estacion")
@@ -34,21 +35,15 @@ public class EstacionController {
     @ApiResponse(responseCode = "401", description = "Sin permisos necesarios para esta petición")
     @ApiResponse(responseCode = "409", description = "Ya existe una estación con el id indicado")
     public ResponseEntity<?> crearEstacion(@RequestBody Estacion estacion) {
-        // Valida si se han introducido el id o la dirección en el request
-        if (estacion.getId() == null || estacion.getId().isBlank()) {
-            return ResponseEntity.badRequest().body("Falta introducir el campo 'id'");
-        } else if (estacion.getDireccion() == null || estacion.getDireccion().isBlank()) {
-            return ResponseEntity.badRequest().body("Falta introducir el campo 'direccion'");
-        }
+        try {
+            Estacion nueva = estacionService.crearEstacion(estacion);
 
-        // Comprueba si ya existe una estación con ese id
-        if (estacionRepository.existsById(estacion.getId())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("Ya existe una estación con id " + estacion.getId());
+            return ResponseEntity.status(HttpStatus.CREATED).body(nueva);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
-
-        Estacion nueva = estacionRepository.save(estacion);
-        return ResponseEntity.status(HttpStatus.CREATED).body(nueva);
     }
 
     @DeleteMapping("/estacion/{id}")
@@ -58,15 +53,13 @@ public class EstacionController {
     @ApiResponse(responseCode = "401", description = "Sin permisos necesarios para esta petición")
     @ApiResponse(responseCode = "404", description = "No se encontró la estación con ese id")
     public ResponseEntity<?> eliminarEstacion(@PathVariable String id) {
-        // Comprueba si existe una estación con ese id
-        if (!estacionRepository.existsById(id)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No existe ninguna estación con id " + id);
+        try {
+            estacionService.eliminarEstacion(id);
+
+            return ResponseEntity.ok("Estación con id " + id + " eliminada correctamente");
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
-
-        estacionRepository.deleteById(id);
-
-        return ResponseEntity.ok("Estación con id " + id + " eliminada correctamente");
     }
 
     @PutMapping("/estacion/{id}")
@@ -77,24 +70,15 @@ public class EstacionController {
     @ApiResponse(responseCode = "401", description = "Sin permisos necesarios para esta petición")
     @ApiResponse(responseCode = "404", description = "No existe una estación con el id indicado")
     public ResponseEntity<?> actualizarEstacion(@PathVariable String id, @RequestBody Estacion estacion) {
-        // Comprueba si existe una estación con ese id
-        if (!estacionRepository.existsById(id)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No existe ninguna estación con id " + id);
+        try {
+            Estacion actualizada = estacionService.actualizarEstacion(id, estacion);
+
+            return ResponseEntity.ok(actualizada);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
-
-        // Valida si se ha introducido la dirección
-        if (estacion.getDireccion() == null || estacion.getDireccion().isBlank()) {
-            return ResponseEntity.badRequest().body("Falta introducir el campo 'direccion'");
-        }
-
-        Estacion estacionBD = estacionRepository.findById(id).get();
-        estacionBD.setDireccion(estacion.getDireccion());
-        estacionBD.setLatitud(estacion.getLatitud());
-        estacionBD.setLongitud(estacion.getLongitud());
-        estacionRepository.save(estacionBD);
-
-        return ResponseEntity.ok(estacionBD);
     }
 
     @Operation(summary = "Obtiene todas las estaciones", description = "Obtiene un listado con todas las estaciones de medición de la aplicación junto con sus datos", tags = {
@@ -102,6 +86,6 @@ public class EstacionController {
     @ApiResponse(responseCode = "200", description = "Devuelve el listado de estaciones")
     @GetMapping("/estaciones")
     public List<Estacion> getAllEstaciones() {
-        return estacionRepository.findAll();
+        return estacionService.obtenerTodas();
     }
 }

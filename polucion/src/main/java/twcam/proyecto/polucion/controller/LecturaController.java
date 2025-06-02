@@ -1,8 +1,7 @@
 package twcam.proyecto.polucion.controller;
 
-import java.time.Instant;
-import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,23 +16,18 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import twcam.proyecto.polucion.service.LecturaService;
 import twcam.proyecto.poluciondata.model.mongo.Lectura;
-import twcam.proyecto.poluciondata.repository.EstacionRepository;
-import twcam.proyecto.poluciondata.repository.LecturaRepository;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 
 @SecurityScheme(name = "bearerAuth", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "JWT")
 @RestController
 public class LecturaController {
 
-    private final LecturaRepository lecturaRepository;
+    private final LecturaService lecturaService;
 
-    private final EstacionRepository estacionRepository;
-
-    public LecturaController(LecturaRepository lecturaRepository, EstacionRepository estacionRepository) {
-        this.lecturaRepository = lecturaRepository;
-
-        this.estacionRepository = estacionRepository;
+    public LecturaController(LecturaService lecturaService) {
+        this.lecturaService = lecturaService;
     }
 
     @PostMapping("/estacion/{id}")
@@ -44,19 +38,14 @@ public class LecturaController {
     @ApiResponse(responseCode = "401", description = "Sin permisos necesarios para esta petición")
     @ApiResponse(responseCode = "404", description = "La estación con ese id no existe")
     public ResponseEntity<?> registrarLectura(@PathVariable String id, @RequestBody Lectura lectura) {
-        if (!estacionRepository.existsById(id)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No existe ninguna estación con ID " + id);
+        try {
+            Lectura nueva = lecturaService.registrarLectura(id, lectura);
+            return ResponseEntity.status(HttpStatus.CREATED).body(nueva);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
-
-        if (lectura.getTimeStamp() == null) {
-            return ResponseEntity.badRequest().body("Falta el campo 'timeStamp'");
-        }
-
-        lectura.setId(Integer.parseInt(id));
-        Lectura nueva = lecturaRepository.save(lectura);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(nueva);
     }
 
     @GetMapping("/estacion/{id}/status")
@@ -70,38 +59,21 @@ public class LecturaController {
             @RequestParam(required = false) String from,
             @RequestParam(required = false) String to) {
 
-        // Si hay parámetros en el request se busca por intervalo
-        if (from != null && to != null) {
-            Instant fromInstant, toInstant;
+        try {
+            if (from != null && to != null) {
+                List<Lectura> lecturas = lecturaService.obtenerLecturasEnIntervalo(id, from, to);
 
-            try {
-                fromInstant = Instant.parse(from);
-                toInstant = Instant.parse(to);
-            } catch (DateTimeParseException e) {
-                return ResponseEntity.badRequest()
-                        .body("Formato de fecha incorrecto. Ejemplo correcto: 2024-03-01T14:30:57Z");
+                return ResponseEntity.ok(lecturas);
+            } else {
+                Lectura ultimaLectura = lecturaService.obtenerUltimaLectura(id);
+
+                return ResponseEntity.ok(ultimaLectura);
             }
-
-            List<Lectura> lecturas = lecturaRepository.findByIdAndTimeStampBetweenOrderByTimeStampDesc(id,
-                    fromInstant, toInstant);
-
-            if (lecturas.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("No hay lecturas para la estación " + id + " en ese intervalo");
-            }
-
-            return ResponseEntity.ok(lecturas);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
-
-        // Si no hay parámetros en el request se devuelve la última lectura
-        List<Lectura> lecturas = lecturaRepository.findByIdOrderByTimeStampDesc(id);
-
-        if (lecturas.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No hay lecturas para la estación con id " + id);
-        }
-
-        return ResponseEntity.ok(lecturas.get(0));
     }
 
 }
