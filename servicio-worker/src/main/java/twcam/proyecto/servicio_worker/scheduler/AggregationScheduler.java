@@ -1,4 +1,4 @@
-package twcam.proyecto.ayuntamiento.scheduler;
+package twcam.proyecto.servicio_worker.scheduler;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -14,6 +14,9 @@ public class AggregationScheduler {
     @Value("${aggregation.task.token}")
     private String token;
 
+    @Value("${aggregation.task.url}")
+    private String url;
+
     public AggregationScheduler(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
@@ -21,8 +24,6 @@ public class AggregationScheduler {
     @Scheduled(fixedRateString = "${aggregation.task.interval}")
     public void ejecutarTareaPeriodica() {
         try {
-            String url = "http://localhost:8083/aggregateData";
-
             HttpHeaders headers = new HttpHeaders();
             headers.setBearerAuth(token);
             headers.setContentType(MediaType.APPLICATION_JSON);

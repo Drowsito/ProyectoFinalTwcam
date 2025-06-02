@@ -41,7 +41,8 @@
             "mainClass": "twcam.proyecto.ayuntamiento.AyuntamientoApplication",
             "projectName": "ayuntamiento",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=53743 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=ayuntamiento"
         },
         {
             "type": "java",
@@ -71,6 +72,27 @@
             "cwd": "${workspaceFolder}",
             "mainClass": "com.marcuschiu.resource.ResourceServerApp",
             "projectName": "sso-resource-server",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ServicioWorkerApplication<servicio-worker>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "twcam.proyecto.servicio_worker.ServicioWorkerApplication",
+            "projectName": "servicio-worker",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=54250 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=servicio-worker"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-AparcamientoWorkerApplication<aparcamiento-worker>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "twcam.proyecto.aparcamiento_worker.AparcamientoWorkerApplication",
+            "projectName": "aparcamiento-worker",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
