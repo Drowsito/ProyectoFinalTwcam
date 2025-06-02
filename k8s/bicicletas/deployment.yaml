@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bicicletas
+spec:
+  replicas: 2  
+  selector:
+    matchLabels:
+      app: bicicletas
+  template:
+    metadata:
+      labels:
+        app: bicicletas
+    spec:
+      containers:
+        - name: bicicletas
+          image: bicicletas:latest
+          ports:
+            - containerPort: 8081
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              valueFrom:
+                configMapKeyRef:
+                  name: bicicletas-config
+                  key: SPRING_PROFILES_ACTIVE
+            - name: SPRING_CONFIG_IMPORT
+              value: configserver:http://config-server:8888
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql:3306/aparcamiento
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: bicicletas-secret
+                  key: MYSQL_USER
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: bicicletas-secret
+                  key: MYSQL_PASSWORD
+            - name: SPRING_DATA_MONGODB_URI
+              value: mongodb://mongo:27017/bicicletas
