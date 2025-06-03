@@ -1,0 +1,5 @@
+twcam\proyecto\ayuntamientodata\model\mongo\AggregatedData.class
+twcam\proyecto\ayuntamientodata\model\mongo\EstacionAggregatedData.class
+twcam\proyecto\ayuntamientodata\model\mongo\AirQuality.class
+twcam\proyecto\ayuntamientodata\repository\AggregatedDataRepository.class
+twcam\proyecto\ayuntamientodata\imports\ImportServiceMongo.class
