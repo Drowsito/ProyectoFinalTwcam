@@ -1,0 +1,17 @@
+#Esto es por buscar una segunda opcion
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-polucion
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: polucion
+                port:
+                  number: 8082

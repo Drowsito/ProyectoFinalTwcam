@@ -2,9 +2,9 @@ FROM eclipse-temurin:17-jre-alpine
 
 WORKDIR /app
 
-COPY target/bicicletas-0.0.1-SNAPSHOT.jar app.jar
+COPY target/ayuntamiento-0.0.1-SNAPSHOT.jar app.jar
 
-EXPOSE 8081
+EXPOSE 8083
 
 ENV SPRING_PROFILES_ACTIVE=prod
 
