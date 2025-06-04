@@ -10,6 +10,9 @@ public class Evento {
     private Integer freeParkingSpots;
     private LocalDateTime timestamp;
 
+    public Evento() {
+    }
+
     public Evento(String mongoId, String parkingId, String operation, Integer bikesAvailable, Integer freeParkingSpots,
             LocalDateTime timestamp) {
         this.mongoId = mongoId;

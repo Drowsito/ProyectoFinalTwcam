@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import twcam.proyecto.shared.EstadoDTO;
-import twcam.proyecto.bicicletasdata.model.Evento;
-import twcam.proyecto.bicicletasdata.model.Parking;
+import twcam.proyecto.shared.Evento;
+import twcam.proyecto.shared.Parking;
 import twcam.proyecto.bicicletas.service.EventoService;
 import twcam.proyecto.bicicletas.service.ParkingService;
 

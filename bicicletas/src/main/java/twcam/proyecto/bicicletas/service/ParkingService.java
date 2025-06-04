@@ -5,35 +5,36 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import twcam.proyecto.bicicletasdata.model.Parking;
-import twcam.proyecto.bicicletasdata.repository.ParkingRepository;
+import twcam.proyecto.bicicletas.service.clientes.ParkingDataClient;
+import twcam.proyecto.shared.Parking;
 
 @Service
 public class ParkingService {
-    private final ParkingRepository repo;
 
-    public ParkingService(ParkingRepository repo) {
-        this.repo = repo;
+    private final ParkingDataClient parkingDataClient;
+
+    public ParkingService(ParkingDataClient parkingDataClient) {
+        this.parkingDataClient = parkingDataClient;
     }
 
     public List<Parking> findAll() {
-        return repo.findAll();
+        return parkingDataClient.findAll();
     }
 
     public Optional<Parking> findById(String id) {
-        return repo.findById(id);
+        return parkingDataClient.findById(id);
     }
 
     public boolean existsById(String id) {
-        return repo.existsById(id);
+        return parkingDataClient.existsById(id);
     }
 
     public Parking save(Parking aparcamiento) {
-        return repo.save(aparcamiento);
+        return parkingDataClient.save(aparcamiento);
     }
 
     public void delete(String id) {
-        repo.deleteById(id);
+        parkingDataClient.delete(id);
     }
 
     public String validarCamposObligatorios(Parking parking) {

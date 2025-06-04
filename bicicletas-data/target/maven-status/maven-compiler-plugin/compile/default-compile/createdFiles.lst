@@ -1,6 +1,0 @@
-twcam\proyecto\bicicletasdata\BicicletasDataApplication.class
-twcam\proyecto\bicicletasdata\imports\ImportServiceMongo.class
-twcam\proyecto\bicicletasdata\model\Parking.class
-twcam\proyecto\bicicletasdata\model\Evento.class
-twcam\proyecto\bicicletasdata\repository\EventoRepository.class
-twcam\proyecto\bicicletasdata\repository\ParkingRepository.class

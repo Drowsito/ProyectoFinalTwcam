@@ -8,8 +8,9 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
-import twcam.proyecto.bicicletasdata.model.Evento;
+
 import twcam.proyecto.bicicletas.service.EventoService;
+import twcam.proyecto.shared.Evento;
 import twcam.proyecto.shared.OperacionDTO;
 
 import java.time.LocalDateTime;
@@ -90,7 +91,7 @@ public class EventoController {
 
         return ResponseEntity
                 .status(201)
-                .body("Evento con id " + guardado.getMongoId() + " almacenado con exito");
+                .body("Evento con id " + guardado.getId() + " almacenado con exito");
     }
 
 }
