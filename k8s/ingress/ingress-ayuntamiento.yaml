@@ -1,17 +1,17 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress-polucion
+  name: ingress-ayuntamiento
 spec:
   ingressClassName: nginx
   rules:
-    - host: polucion.uv.es
+    - host: ayuntamiento.uv.es
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: polucion
+                name: ayuntamiento
                 port:
-                  number: 8082
+                  number: 8083

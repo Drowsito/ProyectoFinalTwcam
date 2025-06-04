@@ -1,4 +1,3 @@
-#Esto es por buscar una segunda opcion
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -6,7 +5,8 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - http:
+    - host: bicicletas.uv.es
+      http:
         paths:
           - path: /
             pathType: Prefix
