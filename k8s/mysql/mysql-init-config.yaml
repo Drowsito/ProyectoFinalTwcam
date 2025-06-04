@@ -5,4 +5,4 @@ metadata:
 data:
   init.sql: |
     CREATE DATABASE IF NOT EXISTS aparcamiento;
-    CREATE DATABASE IF NOT EXISTS estaciones;
+    CREATE DATABASE IF NOT EXISTS polucion;
