@@ -1,6 +1,5 @@
-package com.marcuschiu.auth.config;
+package twcam.proyecto.auth.config;
 
-import com.marcuschiu.auth.config.KeycloakServerProperties.AdminUser;
 import org.keycloak.Config;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.representations.idm.RealmRepresentation;
@@ -13,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+
+import twcam.proyecto.auth.config.KeycloakServerProperties.AdminUser;
 
 import java.util.NoSuchElementException;
 

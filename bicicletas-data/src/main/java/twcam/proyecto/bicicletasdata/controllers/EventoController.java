@@ -35,7 +35,6 @@ public class EventoController {
 
     @GetMapping("/by-parking/{id}")
     public Evento findParkingStatus(@PathVariable String id) {
-        // Usa findFirstByParkingIdOrderByTimestampDesc
         return eventoRepository.findFirstByParkingIdOrderByTimestampDesc(id).orElse(null);
     }
 

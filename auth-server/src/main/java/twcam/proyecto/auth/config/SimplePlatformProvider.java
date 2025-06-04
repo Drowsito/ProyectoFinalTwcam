@@ -1,4 +1,4 @@
-package com.marcuschiu.auth.config;
+package twcam.proyecto.auth.config;
 
 import org.keycloak.platform.PlatformProvider;
 import org.keycloak.services.ServicesLogger;

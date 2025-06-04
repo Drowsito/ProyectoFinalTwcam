@@ -1,4 +1,4 @@
-package com.marcuschiu.auth.config;
+package twcam.proyecto.auth.config;
 
 import org.jboss.resteasy.plugins.server.servlet.HttpServlet30Dispatcher;
 import org.jboss.resteasy.plugins.server.servlet.ResteasyContextParameters;

@@ -1,4 +1,4 @@
-package com.marcuschiu.auth.config;
+package twcam.proyecto.auth.config;
 
 import org.jboss.resteasy.core.Dispatcher;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;

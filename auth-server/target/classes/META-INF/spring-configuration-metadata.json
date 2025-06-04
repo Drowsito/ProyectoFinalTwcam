@@ -2,36 +2,36 @@
   "groups": [
     {
       "name": "keycloak.server",
-      "type": "com.marcuschiu.auth.config.KeycloakServerProperties",
-      "sourceType": "com.marcuschiu.auth.config.KeycloakServerProperties"
+      "type": "twcam.proyecto.auth.config.KeycloakServerProperties",
+      "sourceType": "twcam.proyecto.auth.config.KeycloakServerProperties"
     },
     {
       "name": "keycloak.server.admin-user",
-      "type": "com.marcuschiu.auth.config.KeycloakServerProperties$AdminUser",
-      "sourceType": "com.marcuschiu.auth.config.KeycloakServerProperties",
-      "sourceMethod": "public com.marcuschiu.auth.config.KeycloakServerProperties.AdminUser getAdminUser() "
+      "type": "twcam.proyecto.auth.config.KeycloakServerProperties$AdminUser",
+      "sourceType": "twcam.proyecto.auth.config.KeycloakServerProperties",
+      "sourceMethod": "public twcam.proyecto.auth.config.KeycloakServerProperties.AdminUser getAdminUser() "
     }
   ],
   "properties": [
     {
       "name": "keycloak.server.admin-user.password",
       "type": "java.lang.String",
-      "sourceType": "com.marcuschiu.auth.config.KeycloakServerProperties$AdminUser"
+      "sourceType": "twcam.proyecto.auth.config.KeycloakServerProperties$AdminUser"
     },
     {
       "name": "keycloak.server.admin-user.username",
       "type": "java.lang.String",
-      "sourceType": "com.marcuschiu.auth.config.KeycloakServerProperties$AdminUser"
+      "sourceType": "twcam.proyecto.auth.config.KeycloakServerProperties$AdminUser"
     },
     {
       "name": "keycloak.server.context-path",
       "type": "java.lang.String",
-      "sourceType": "com.marcuschiu.auth.config.KeycloakServerProperties"
+      "sourceType": "twcam.proyecto.auth.config.KeycloakServerProperties"
     },
     {
       "name": "keycloak.server.realm-import-file",
       "type": "java.lang.String",
-      "sourceType": "com.marcuschiu.auth.config.KeycloakServerProperties"
+      "sourceType": "twcam.proyecto.auth.config.KeycloakServerProperties"
     }
   ],
   "hints": []

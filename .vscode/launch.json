@@ -49,7 +49,7 @@
             "name": "Spring Boot-AuthorizationServerApp<sso-authorization-server>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
-            "mainClass": "com.marcuschiu.auth.AuthorizationServerApp",
+            "mainClass": "twcam.proyecto.auth.AuthorizationServerApp",
             "projectName": "sso-authorization-server",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
@@ -59,7 +59,7 @@
             "name": "Spring Boot-AuthorizationServerApp<authorization-server>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
-            "mainClass": "com.marcuschiu.auth.AuthorizationServerApp",
+            "mainClass": "twcam.proyecto.auth.AuthorizationServerApp",
             "projectName": "authorization-server",
             "args": "",
             "envFile": "${workspaceFolder}/.env",
@@ -70,7 +70,7 @@
             "name": "Spring Boot-ResourceServerApp<sso-resource-server>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
-            "mainClass": "com.marcuschiu.resource.ResourceServerApp",
+            "mainClass": "twcam.proyecto.resource.ResourceServerApp",
             "projectName": "sso-resource-server",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
@@ -116,7 +116,8 @@
             "mainClass": "twcam.proyecto.estacion_worker.EstacionWorkerApplication",
             "projectName": "estacion-worker",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=61499 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=estacion-worker"
         },
         {
             "type": "java",
@@ -136,6 +137,27 @@
             "cwd": "${workspaceFolder}",
             "mainClass": "twcam.proyecto.ayuntamientodata.AyuntamientodataApplication",
             "projectName": "ayuntamiento-data",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=61402 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=ayuntamiento-data"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-BicicletasDataApplication<bicicletasdata>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "twcam.proyecto.bicicletasdata.BicicletasDataApplication",
+            "projectName": "bicicletasdata",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-AyuntamientodataApplication<ayuntamientodata>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "twcam.proyecto.ayuntamientodata.AyuntamientodataApplication",
+            "projectName": "ayuntamientodata",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }

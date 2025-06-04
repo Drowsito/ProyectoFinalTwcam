@@ -1,4 +1,4 @@
-package com.marcuschiu.auth;
+package twcam.proyecto.auth;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

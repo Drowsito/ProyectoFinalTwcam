@@ -1,4 +1,4 @@
-package com.marcuschiu.auth.config;
+package twcam.proyecto.auth.config;
 
 import org.keycloak.common.ClientConnection;
 import org.keycloak.services.filters.AbstractRequestFilter;
