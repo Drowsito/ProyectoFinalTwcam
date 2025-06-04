@@ -94,7 +94,8 @@
             "mainClass": "twcam.proyecto.aparcamiento_worker.AparcamientoWorkerApplication",
             "projectName": "aparcamiento-worker",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=65374 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=aparcamiento-worker"
         },
         {
             "type": "java",
@@ -114,6 +115,16 @@
             "cwd": "${workspaceFolder}",
             "mainClass": "twcam.proyecto.estacion_worker.EstacionWorkerApplication",
             "projectName": "estacion-worker",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-BicicletasDataApplication<bicicletas-data>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "twcam.proyecto.bicicletasdata.BicicletasDataApplication",
+            "projectName": "bicicletas-data",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
