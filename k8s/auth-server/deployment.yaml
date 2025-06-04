@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: auth-server
-          image: pgomezbo/auth-server:latest
+          image: pgomezbo/auth-server:v1.4
           ports:
-            - containerPort: 8888
+            - containerPort: 9000
