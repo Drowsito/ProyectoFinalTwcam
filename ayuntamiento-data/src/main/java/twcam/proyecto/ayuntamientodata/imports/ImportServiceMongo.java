@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-import twcam.proyecto.ayuntamientodata.model.mongo.AggregatedData;
+import twcam.proyecto.ayuntamientodata.model.AggregatedData;
 import twcam.proyecto.ayuntamientodata.repository.AggregatedDataRepository;
 
 @Service

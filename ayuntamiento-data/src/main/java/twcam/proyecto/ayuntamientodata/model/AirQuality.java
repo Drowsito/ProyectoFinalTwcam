@@ -1,4 +1,4 @@
-package twcam.proyecto.ayuntamientodata.model.mongo;
+package twcam.proyecto.ayuntamientodata.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

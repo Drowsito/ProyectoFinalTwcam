@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import twcam.proyecto.ayuntamiento.service.AggregatedDataService;
-import twcam.proyecto.ayuntamientodata.model.mongo.AggregatedData;
+import twcam.proyecto.shared.AggregatedData;
 
 @SecurityScheme(name = "bearerAuth", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "JWT")
 @RestController

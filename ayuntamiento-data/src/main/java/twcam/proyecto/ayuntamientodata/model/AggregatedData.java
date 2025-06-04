@@ -1,4 +1,4 @@
-package twcam.proyecto.ayuntamientodata.model.mongo;
+package twcam.proyecto.ayuntamientodata.model;
 
 import java.time.Instant;
 import java.util.List;

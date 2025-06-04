@@ -7,24 +7,25 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import twcam.proyecto.ayuntamiento.service.clientes.AggregatedDataClient;
+import twcam.proyecto.shared.AggregatedData;
+import twcam.proyecto.shared.AirQuality;
 import twcam.proyecto.shared.Estacion;
+import twcam.proyecto.shared.EstacionAggregatedData;
 import twcam.proyecto.shared.EstadoDTO;
 import twcam.proyecto.shared.Lectura;
 import twcam.proyecto.shared.Parking;
-import twcam.proyecto.ayuntamientodata.model.mongo.AggregatedData;
-import twcam.proyecto.ayuntamientodata.model.mongo.AirQuality;
-import twcam.proyecto.ayuntamientodata.model.mongo.EstacionAggregatedData;
-import twcam.proyecto.ayuntamientodata.repository.AggregatedDataRepository;
 
 @Service
 public class AggregatedDataService {
 
     private final RestTemplate restTemplate;
-    private final AggregatedDataRepository repository;
 
-    public AggregatedDataService(RestTemplate restTemplate, AggregatedDataRepository repository) {
+    private final AggregatedDataClient aggregatedDataClient;
+
+    public AggregatedDataService(RestTemplate restTemplate, AggregatedDataClient aggregatedDataClient) {
         this.restTemplate = restTemplate;
-        this.repository = repository;
+        this.aggregatedDataClient = aggregatedDataClient;
     }
 
     public AggregatedData generarDatos() {
@@ -108,10 +109,10 @@ public class AggregatedDataService {
         doc.setTimeStamp(Instant.now());
         doc.setAggregatedData(resultado);
 
-        return repository.save(doc);
+        return aggregatedDataClient.save(doc);
     }
 
     public AggregatedData obtenerUltimoRegistro() {
-        return repository.findFirstByOrderByTimeStampDesc();
+        return aggregatedDataClient.findLast();
     }
 }
