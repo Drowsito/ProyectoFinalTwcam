@@ -5,12 +5,16 @@ import java.time.Instant;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Lectura {
+    @JsonProperty("id")
     private int id;
 
+    @JsonProperty("timeStamp")
     private Instant timeStamp;
 
+    @JsonProperty("nitricOxides")
     private float nitricOxides;
 
+    @JsonProperty("nitrogenDioxides")
     private float nitrogenDioxides;
 
     @JsonProperty("VOCs_NMHC")

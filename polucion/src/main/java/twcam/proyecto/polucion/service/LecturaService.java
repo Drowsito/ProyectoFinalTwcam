@@ -1,25 +1,23 @@
 package twcam.proyecto.polucion.service;
 
-import java.time.DateTimeException;
-import java.time.Instant;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
 
-import twcam.proyecto.poluciondata.model.mongo.Lectura;
-import twcam.proyecto.poluciondata.repository.EstacionRepository;
-import twcam.proyecto.poluciondata.repository.LecturaRepository;
+import twcam.proyecto.polucion.service.clientes.EstacionDataClient;
+import twcam.proyecto.polucion.service.clientes.LecturaDataClient;
+import twcam.proyecto.shared.Lectura;
 
 @Service
 public class LecturaService {
-    private final LecturaRepository lecturaRepository;
+    private final EstacionDataClient estacionDataClient;
 
-    private final EstacionRepository estacionRepository;
+    private final LecturaDataClient lecturaDataClient;
 
-    public LecturaService(LecturaRepository lecturaRepository, EstacionRepository estacionRepository) {
-        this.lecturaRepository = lecturaRepository;
-        this.estacionRepository = estacionRepository;
+    public LecturaService(EstacionDataClient estacionDataClient, LecturaDataClient lecturaDataClient) {
+        this.estacionDataClient = estacionDataClient;
+        this.lecturaDataClient = lecturaDataClient;
     }
 
     /**
@@ -31,17 +29,15 @@ public class LecturaService {
      * @return Lectura guardada en la base de datos
      */
     public Lectura registrarLectura(String id, Lectura lectura) {
-        if (!estacionRepository.existsById(id)) {
+        if (!estacionDataClient.existsById(id)) {
             throw new NoSuchElementException("No existe ninguna estación con ID " + id);
         }
-
         if (lectura.getTimeStamp() == null) {
             throw new IllegalArgumentException("Falta el campo 'timeStamp'");
         }
 
         lectura.setId(Integer.parseInt(id));
-
-        return lecturaRepository.save(lectura);
+        return lecturaDataClient.create(lectura);
     }
 
     /**
@@ -54,16 +50,7 @@ public class LecturaService {
      * @return Lista de lecturas en ese intervalo
      */
     public List<Lectura> obtenerLecturasEnIntervalo(int id, String from, String to) {
-        Instant fromInstant, toInstant;
-        try {
-            fromInstant = Instant.parse(from);
-            toInstant = Instant.parse(to);
-        } catch (DateTimeException e) {
-            throw new IllegalArgumentException("Formato de fecha incorrecto. Ejemplo correcto: 2024-03-01T14:30:57Z");
-        }
-
-        List<Lectura> lecturas = lecturaRepository.findByIdAndTimeStampBetweenOrderByTimeStampDesc(id, fromInstant,
-                toInstant);
+        List<Lectura> lecturas = lecturaDataClient.findByIdAndTimeStampBetweenOrderByTimeStampDesc(id, from, to);
 
         if (lecturas.isEmpty()) {
             throw new NoSuchElementException("No hay lecturas para la estación " + id + " en ese intervalo");
@@ -80,7 +67,7 @@ public class LecturaService {
      * @return Última lectura registrada en la estación
      */
     public Lectura obtenerUltimaLectura(int id) {
-        List<Lectura> lecturas = lecturaRepository.findByIdOrderByTimeStampDesc(id);
+        List<Lectura> lecturas = lecturaDataClient.findByIdOrderByTimeStampDesc(id);
 
         if (lecturas.isEmpty()) {
             throw new NoSuchElementException("No hay lecturas para la estación con id " + id);

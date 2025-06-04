@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import twcam.proyecto.polucion.service.EstacionService;
-import twcam.proyecto.poluciondata.model.Estacion;
+import twcam.proyecto.shared.Estacion;
 
 @RestController
 public class EstacionController {

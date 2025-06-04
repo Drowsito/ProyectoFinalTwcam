@@ -95,6 +95,27 @@
             "projectName": "aparcamiento-worker",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-PolucionDataApplication<polucion-data>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "twcam.proyecto.polucion_data.PolucionDataApplication",
+            "projectName": "polucion-data",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=64549 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=polucion-data"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-EstacionWorkerApplication<estacion-worker>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "twcam.proyecto.estacion_worker.EstacionWorkerApplication",
+            "projectName": "estacion-worker",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }

@@ -17,7 +17,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import twcam.proyecto.polucion.service.LecturaService;
-import twcam.proyecto.poluciondata.model.mongo.Lectura;
+import twcam.proyecto.shared.Lectura;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 
 @SecurityScheme(name = "bearerAuth", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "JWT")

@@ -5,15 +5,16 @@ import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
 
-import twcam.proyecto.poluciondata.model.Estacion;
-import twcam.proyecto.poluciondata.repository.EstacionRepository;
+import twcam.proyecto.polucion.service.clientes.EstacionDataClient;
+import twcam.proyecto.shared.Estacion;
 
 @Service
 public class EstacionService {
-    private final EstacionRepository estacionRepository;
 
-    public EstacionService(EstacionRepository estacionRepository) {
-        this.estacionRepository = estacionRepository;
+    private final EstacionDataClient estacionDataClient;
+
+    public EstacionService(EstacionDataClient estacionDataClient) {
+        this.estacionDataClient = estacionDataClient;
     }
 
     /**
@@ -31,11 +32,10 @@ public class EstacionService {
         if (estacion.getDireccion() == null || estacion.getDireccion().isBlank()) {
             throw new IllegalArgumentException("Falta introducir el campo 'direccion'");
         }
-        if (estacionRepository.existsById(estacion.getId())) {
+        if (estacionDataClient.existsById(estacion.getId())) {
             throw new IllegalStateException("Ya existe una estación con id " + estacion.getId());
         }
-
-        return estacionRepository.save(estacion);
+        return estacionDataClient.create(estacion);
     }
 
     /**
@@ -44,11 +44,10 @@ public class EstacionService {
      * @param id Identificador de la estación a borrar
      */
     public void eliminarEstacion(String id) {
-        if (!estacionRepository.existsById(id)) {
+        if (!estacionDataClient.existsById(id)) {
             throw new NoSuchElementException("No existe ninguna estación con id " + id);
         }
-
-        estacionRepository.deleteById(id);
+        estacionDataClient.delete(id);
     }
 
     /**
@@ -60,20 +59,14 @@ public class EstacionService {
      * @return La estación actualizada
      */
     public Estacion actualizarEstacion(String id, Estacion estacion) {
-        if (!estacionRepository.existsById(id)) {
+        if (!estacionDataClient.existsById(id)) {
             throw new NoSuchElementException("No existe ninguna estación con id " + id);
         }
-
         if (estacion.getDireccion() == null || estacion.getDireccion().isBlank()) {
             throw new IllegalArgumentException("Falta introducir el campo 'direccion'");
         }
-
-        Estacion estacionBD = estacionRepository.findById(id).get();
-        estacionBD.setDireccion(estacion.getDireccion());
-        estacionBD.setLatitud(estacion.getLatitud());
-        estacionBD.setLongitud(estacion.getLongitud());
-
-        return estacionRepository.save(estacionBD);
+        // Reutilizas la lógica de crear un nuevo objeto con los datos correctos
+        return estacionDataClient.update(id, estacion);
     }
 
     /**
@@ -82,6 +75,6 @@ public class EstacionService {
      * @return Lista con todas las estaciones
      */
     public List<Estacion> obtenerTodas() {
-        return estacionRepository.findAll();
+        return estacionDataClient.getAll();
     }
 }

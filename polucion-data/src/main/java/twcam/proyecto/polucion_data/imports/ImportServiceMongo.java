@@ -1,4 +1,4 @@
-package twcam.proyecto.poluciondata.imports;
+package twcam.proyecto.polucion_data.imports;
 
 import java.util.Scanner;
 
@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-import twcam.proyecto.poluciondata.model.mongo.Lectura;
-import twcam.proyecto.poluciondata.repository.LecturaRepository;
+import twcam.proyecto.polucion_data.model.Lectura;
+import twcam.proyecto.polucion_data.repository.LecturaRepository;
 
 @Service
 public class ImportServiceMongo {

@@ -1,4 +1,4 @@
-package twcam.proyecto.poluciondata.model.mongo;
+package twcam.proyecto.polucion_data.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
