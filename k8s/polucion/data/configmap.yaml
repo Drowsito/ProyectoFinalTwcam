@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: polucion-data-config
+data:
+  SPRING_PROFILES_ACTIVE: "prod"
+  SPRING_CONFIG_IMPORT: "configserver:http://config-server:8888"
+  SPRING_DATASOURCE_URL: "jdbc:mysql://mysql:3306/polucion"
+  SPRING_DATA_MONGODB_URI: "mongodb://mongo:27017/polucion"

@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: config-server
-          image: pgomezbo/config-server:latest
+          image: pgomezbo/config-server:v1.2
           ports:
             - containerPort: 8888

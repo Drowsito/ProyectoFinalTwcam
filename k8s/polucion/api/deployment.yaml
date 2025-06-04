@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: polucion
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: polucion
+  template:
+    metadata:
+      labels:
+        app: polucion
+    spec:
+      containers:
+        - name: polucion
+          image: pgomezbo/polucion:v1.2
+          ports:
+            - containerPort: 8082
+          env:
+          - name: SPRING_PROFILES_ACTIVE
+            valueFrom:
+              configMapKeyRef:
+                name: polucion-config
+                key: SPRING_PROFILES_ACTIVE
+          - name: SPRING_CONFIG_IMPORT
+            valueFrom:
+              configMapKeyRef:
+                name: polucion-config
+                key: SPRING_CONFIG_IMPORT
+          - name: SERVICE_POLUCIONDATA_URL
+            valueFrom:
+              configMapKeyRef:
+                name: polucion-config
+                key: SERVICE_POLUCIONDATA_URL
+          - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
+            valueFrom:
+              configMapKeyRef:
+                name: polucion-config
+                key: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
+          - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI
+            valueFrom:
+              configMapKeyRef:
+                name: polucion-config
+                key: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI

@@ -26,14 +26,24 @@ kubectl apply -n proyectofinal -f ./auth-server/
 echo "Esperando a que auth-server esté listo en 'proyectofinal'..."
 kubectl wait -n proyectofinal --for=condition=ready pod -l app=auth-server --timeout=90s
 
+echo "Desplegando los data layers de las 3 APIS..."
+kubectl apply -n proyectofinal -f ./bicicletas/data/
+kubectl apply -n proyectofinal -f ./polucion/data/
+kubectl apply -n proyectofinal -f ./ayuntamiento/data/
+
+echo "Esperando a que los datalayers estén listas en 'proyectofinal'..."
+kubectl wait -n proyectofinal --for=condition=ready pod -l app=bicicletas-data --timeout=90s
+kubectl wait -n proyectofinal --for=condition=ready pod -l app=polucion-data --timeout=90s
+kubectl wait -n proyectofinal --for=condition=ready pod -l app=ayuntamiento-data --timeout=90s
+
 echo "Desplegando la API bicicletas en 'proyectofinal'..."
-kubectl apply -n proyectofinal -f ./bicicletas/
+kubectl apply -n proyectofinal -f ./bicicletas/api/
 
 echo "Desplegando la API polucion en 'proyectofinal'..."
-kubectl apply -n proyectofinal -f ./polucion/
+kubectl apply -n proyectofinal -f ./polucion/api
 
 echo "Desplegando la API ayuntamiento en 'proyectofinal'..."
-kubectl apply -n proyectofinal -f ./ayuntamiento/
+kubectl apply -n proyectofinal -f ./ayuntamiento/api
 
 echo "Esperando a que las APIs estén listas en 'proyectofinal'..."
 kubectl wait -n proyectofinal --for=condition=ready pod -l app=bicicletas --timeout=90s

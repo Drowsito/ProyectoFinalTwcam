@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bicicletas
+spec:
+  replicas: 2  
+  selector:
+    matchLabels:
+      app: bicicletas
+  template:
+    metadata:
+      labels:
+        app: bicicletas
+    spec:
+      containers:
+        - name: bicicletas
+          image: pgomezbo/bicicletas:v1.2
+          ports:
+            - containerPort: 8081
+          env:
+          - name: SPRING_PROFILES_ACTIVE
+            valueFrom:
+              configMapKeyRef:
+                name: bicicletas-config
+                key: SPRING_PROFILES_ACTIVE
+          - name: SPRING_CONFIG_IMPORT
+            valueFrom:
+              configMapKeyRef:
+                name: bicicletas-config
+                key: SPRING_CONFIG_IMPORT
+          - name: SERVICE_BICICLETASDATA_URL
+            valueFrom:
+              configMapKeyRef:
+                name: bicicletas-config
+                key: SERVICE_BICICLETASDATA_URL
+          - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
+            valueFrom:
+              configMapKeyRef:
+                name: bicicletas-config
+                key: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
+          - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI
+            valueFrom:
+              configMapKeyRef:
+                name: bicicletas-config
+                key: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI

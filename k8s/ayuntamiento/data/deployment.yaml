@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ayuntamiento-data
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ayuntamiento-data
+  template:
+    metadata:
+      labels:
+        app: ayuntamiento-data
+    spec:
+      containers:
+        - name: ayuntamiento-data
+          image: pgomezbo/ayuntamientodata:v1.1
+          ports:
+            - containerPort: 8089
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              valueFrom:
+                configMapKeyRef:
+                  name: ayuntamiento-data-config
+                  key: SPRING_PROFILES_ACTIVE
+            - name: SPRING_CONFIG_IMPORT
+              valueFrom:
+                configMapKeyRef:
+                  name: ayuntamiento-data-config
+                  key: SPRING_CONFIG_IMPORT
+            - name: SPRING_DATA_MONGODB_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: ayuntamiento-data-config
+                  key: SPRING_DATA_MONGODB_URI

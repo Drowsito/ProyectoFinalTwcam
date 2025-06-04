@@ -1,32 +1,43 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bicicletas
+  name: bicicletas-data
 spec:
-  replicas: 2  
+  replicas: 1
   selector:
     matchLabels:
-      app: bicicletas
+      app: bicicletas-data
   template:
     metadata:
       labels:
-        app: bicicletas
+        app: bicicletas-data
     spec:
       containers:
-        - name: bicicletas
-          image: pgomezbo/bicicletas:latest
+        - name: bicicletas-data
+          image: pgomezbo/bicicletasdata:v1.1
           ports:
-            - containerPort: 8081
+            - containerPort: 8088
           env:
             - name: SPRING_PROFILES_ACTIVE
               valueFrom:
                 configMapKeyRef:
-                  name: bicicletas-config
+                  name: bicicletas-data-config
                   key: SPRING_PROFILES_ACTIVE
             - name: SPRING_CONFIG_IMPORT
-              value: configserver:http://config-server:8888
+              valueFrom:
+                configMapKeyRef:
+                  name: bicicletas-data-config
+                  key: SPRING_CONFIG_IMPORT
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:mysql://mysql:3306/aparcamiento
+              valueFrom:
+                configMapKeyRef:
+                  name: bicicletas-data-config
+                  key: SPRING_DATASOURCE_URL
+            - name: SPRING_DATA_MONGODB_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: bicicletas-data-config
+                  key: SPRING_DATA_MONGODB_URI
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -37,9 +48,3 @@ spec:
                 secretKeyRef:
                   name: bicicletas-secret
                   key: MYSQL_PASSWORD
-            - name: SPRING_DATA_MONGODB_URI
-              value: mongodb://mongo:27017/bicicletas
-            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
-              value: http://auth-server:9000/auth/realms/proyecto-final
-            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI
-              value: http://auth-server:9000/auth/realms/proyecto-final/protocol/openid-connect/certs

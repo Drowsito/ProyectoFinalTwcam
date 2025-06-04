@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: polucion-data
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: polucion-data
+  template:
+    metadata:
+      labels:
+        app: polucion-data
+    spec:
+      containers:
+        - name: polucion-data
+          image: pgomezbo/poluciondata:v1.1
+          ports:
+            - containerPort: 8087
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              valueFrom:
+                configMapKeyRef:
+                  name: polucion-data-config
+                  key: SPRING_PROFILES_ACTIVE
+            - name: SPRING_CONFIG_IMPORT
+              valueFrom:
+                configMapKeyRef:
+                  name: polucion-data-config
+                  key: SPRING_CONFIG_IMPORT
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: polucion-data-config
+                  key: SPRING_DATASOURCE_URL
+            - name: SPRING_DATA_MONGODB_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: polucion-data-config
+                  key: SPRING_DATA_MONGODB_URI
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: polucion-secret
+                  key: MYSQL_USER
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: polucion-secret
+                  key: MYSQL_PASSWORD
