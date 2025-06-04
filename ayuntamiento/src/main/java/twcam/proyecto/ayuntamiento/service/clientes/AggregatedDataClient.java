@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import twcam.proyecto.shared.AggregatedData;
 
-@FeignClient(name = "aggregated-data-client", url = "http://localhost:8089")
+@FeignClient(name = "aggregated-data-client", url = "${service.ayuntamientodata.url}")
 public interface AggregatedDataClient {
     @PostMapping("/aggregated-data")
     AggregatedData save(@RequestBody AggregatedData data);

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import twcam.proyecto.shared.Estacion;
 
-@FeignClient(name = "poluciondataestacion", url = "http://localhost:8087")
+@FeignClient(name = "poluciondataestacion", url = "${service.poluciondata.url}")
 public interface EstacionDataClient {
     @GetMapping("/estacion")
     List<Estacion> getAll();

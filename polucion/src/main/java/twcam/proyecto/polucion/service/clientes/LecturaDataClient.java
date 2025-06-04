@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import twcam.proyecto.shared.Lectura;
 
-@FeignClient(name = "poluciondatalectura", url = "http://localhost:8087")
+@FeignClient(name = "poluciondatalectura", url = "${service.poluciondata.url}")
 public interface LecturaDataClient {
 
     @PostMapping("/lectura")

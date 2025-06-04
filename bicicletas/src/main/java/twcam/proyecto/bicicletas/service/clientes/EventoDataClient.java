@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import twcam.proyecto.shared.EstadoDTO;
 import twcam.proyecto.shared.Evento;
 
-@FeignClient(name = "eventodata", url = "http://localhost:8088")
+@FeignClient(name = "eventodata", url = "${service.bicicletasdata.url}")
 public interface EventoDataClient {
 
     @PostMapping("/evento")

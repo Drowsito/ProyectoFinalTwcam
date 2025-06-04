@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import twcam.proyecto.shared.Parking;
 
-@FeignClient(name = "parkingdata", url = "http://localhost:8088")
+@FeignClient(name = "parkingdata", url = "${service.bicicletasdata.url}")
 public interface ParkingDataClient {
 
     @GetMapping("/parking")
