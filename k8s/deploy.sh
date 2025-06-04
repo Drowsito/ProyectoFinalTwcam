@@ -20,6 +20,12 @@ kubectl apply -n proyectofinal -f ./config-server/
 echo "Esperando a que config-server esté listo en 'proyectofinal'..."
 kubectl wait -n proyectofinal --for=condition=ready pod -l app=config-server --timeout=90s
 
+echo "Desplegando el auth-server en 'proyectofinal'..."
+kubectl apply -n proyectofinal -f ./auth-server/
+
+echo "Esperando a que auth-server esté listo en 'proyectofinal'..."
+kubectl wait -n proyectofinal --for=condition=ready pod -l app=auth-server --timeout=90s
+
 echo "Desplegando la API bicicletas en 'proyectofinal'..."
 kubectl apply -n proyectofinal -f ./bicicletas/
 
@@ -37,8 +43,6 @@ kubectl wait -n proyectofinal --for=condition=ready pod -l app=ayuntamiento --ti
 echo "Desplegando los ingress en 'proyectofinal'..."
 kubectl apply -n proyectofinal -f ./ingress/
 
-# Si necesitas hacer port-forward sobre el ingress-controller (instalado en el namespace de ingress-nginx),
-# la siguiente línea no cambiaría de namespace, pues el controlador suele estar en 'ingress-nginx'.
-#kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 8080:80
-
 echo "¡Despliegue completo en el namespace 'proyectofinal'!"
+
+kubectl get all -n proyectofinal

@@ -39,3 +39,7 @@ spec:
                   key: MYSQL_PASSWORD
             - name: SPRING_DATA_MONGODB_URI
               value: mongodb://mongo:27017/bicicletas
+            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
+              value: http://auth-server:9000/auth/realms/proyecto-final
+            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI
+              value: http://auth-server:9000/auth/realms/proyecto-final/protocol/openid-connect/certs
