@@ -1,0 +1,668 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "API de ayuntamiento",
+        "description": "API que contiene todas las operaciones necesarias para la gestión del ayuntamiento",
+        "contact": {
+            "name": "Pablo Gómez/Diego Ruiz",
+            "email": "pagobo2@alumni.uv.es/dieruiz4@alumni.uv.es"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        "version": "v1"
+    },
+    "servers": [
+        {
+            "url": "/",
+            "description": "Production"
+        }
+    ],
+    "paths": {
+        "/estacion/{id}": {
+            "put": {
+                "tags": [
+                    "Operaciones que necesitan el rol 'admin'"
+                ],
+                "summary": "Modifica una estación",
+                "description": "Modifica una estación redirigiendo la petición al microservicio 'polucion'",
+                "operationId": "modificarEstacion",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Estacion"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "Faltan campos obligatorios en la petición",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Sin permisos necesarios para esta petición",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No existe una estación con el id indicado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Estación actualizada correctamente",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Operaciones que necesitan el rol 'admin'"
+                ],
+                "summary": "Elimina una estación",
+                "description": "Elimina una estación redirigiendo la petición al microservicio 'polucion'",
+                "operationId": "eliminarEstacion",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Sin permisos necesarios para esta petición",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Estación eliminada correctamente",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontró la estación con ese id",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/aparcamiento/{id}": {
+            "put": {
+                "tags": [
+                    "Operaciones que necesitan el rol 'admin'"
+                ],
+                "summary": "Modifica un parking",
+                "description": "Modifica una parking redirigiendo la petición al microservicio 'bicicletas'",
+                "operationId": "modificarParking",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Parking"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "404": {
+                        "description": "No existe una parking con el id indicado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Faltan campos obligatorios en la petición",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Sin permisos necesarios para esta petición",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Parking actualizado correctamente",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Operaciones que necesitan el rol 'admin'"
+                ],
+                "summary": "Elimina un parking",
+                "description": "Elimina un parking redirigiendo la petición al microservicio 'bicicletas'",
+                "operationId": "eliminarParking",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Sin permisos necesarios para esta petición",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontró el parking con ese id",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Parking eliminado correctamente",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/estacion": {
+            "post": {
+                "tags": [
+                    "Operaciones que necesitan el rol 'admin'"
+                ],
+                "summary": "Crea una estación",
+                "description": "Crea una estación redirigiendo la petición al microservicio 'polucion'",
+                "operationId": "crearEstacion",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Estacion"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "409": {
+                        "description": "Ya existe una estación con el id indicado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "Estación creada correctamente",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Sin permisos necesarios para esta petición",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Faltan campos obligatorios como 'id' o 'dirección'",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/aparcamiento": {
+            "post": {
+                "tags": [
+                    "Operaciones que necesitan el rol 'admin'"
+                ],
+                "summary": "Crea un aparcamiento",
+                "description": "Crea un aparcamiento redirigiendo la petición al microservicio 'bicicletas'",
+                "operationId": "crearParking",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Parking"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "401": {
+                        "description": "Sin permisos necesarios para esta petición",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "Aparcamiento creado correctamente",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Faltan campos obligatorios como 'id' o 'dirección'",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Ya existe un aparcamiento con el id indicado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/aggregateData": {
+            "post": {
+                "tags": [
+                    "Operaciones que necesitan el rol 'servicio'"
+                ],
+                "summary": "Obtiene datos de polución y de estaciones",
+                "description": "Obtiene el número medio de bicicletas disponibles y el número medio de cada tipo de contaminante atmosférico. Los datos de polución se obtienen de la estación más cercana a cada aparcamiento. Se invoca a intervalores regulares de tiempo y persiste en una base de datos NoSQL.",
+                "operationId": "agregar",
+                "responses": {
+                    "200": {
+                        "description": "Documento generado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error al generar el documento",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/estacionCercana": {
+            "get": {
+                "tags": [
+                    "Operaciones públicas"
+                ],
+                "summary": "Obtiene la estación más cercana",
+                "description": "Devuelve la estación más cercana a la posición indicada (lat/lon)",
+                "operationId": "estacionCercana",
+                "parameters": [
+                    {
+                        "name": "lat",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "format": "float"
+                        }
+                    },
+                    {
+                        "name": "lon",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "format": "float"
+                        }
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "No hay estaciones disponibles",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error de comunicación con el servicio de polución",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Se ha encontrado una estación de medición cercana",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/aparcamientoCercano": {
+            "get": {
+                "tags": [
+                    "Operaciones públicas"
+                ],
+                "summary": "Aparcamiento más cercano con bicis disponibles",
+                "description": "Devuelve el más cercano a la posición indicada",
+                "operationId": "aparcamientoCercano",
+                "parameters": [
+                    {
+                        "name": "lat",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "format": "float"
+                        }
+                    },
+                    {
+                        "name": "lon",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "format": "float"
+                        }
+                    }
+                ],
+                "responses": {
+                    "500": {
+                        "description": "Error de comunicación con el servicio de bicicletas",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Se ha encontrado un aparcamiento disponible cercano",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No hay aparcamientos disponibles o con bicis cerca de la ubicación dada",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/aggregatedData": {
+            "get": {
+                "tags": [
+                    "Operaciones públicas"
+                ],
+                "summary": "Obtiene los últimos datos agregados",
+                "description": "Devuelve el documento de datos agregados más reciente",
+                "operationId": "obtenerUltimosDatos",
+                "responses": {
+                    "404": {
+                        "description": "No hay datos disponibles",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Datos encontrados",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Estacion": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "direccion": {
+                        "type": "string"
+                    },
+                    "latitud": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "longitud": {
+                        "type": "number",
+                        "format": "float"
+                    }
+                }
+            },
+            "Parking": {
+                "type": "object",
+                "properties": {
+                    "idparking": {
+                        "type": "string"
+                    },
+                    "direction": {
+                        "type": "string"
+                    },
+                    "bikesCapacity": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "latitude": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "longitude": {
+                        "type": "number",
+                        "format": "float"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}

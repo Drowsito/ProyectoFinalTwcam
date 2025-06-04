@@ -1,0 +1,444 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "API de polución",
+        "description": "API que contiene todas las operaciones necesarias para la gestión de las estaciones de medición de polución",
+        "contact": {
+            "name": "Pablo Gómez/Diego Ruiz",
+            "email": "pagobo2@alumni.uv.es/dieruiz4@alumni.uv.es"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        "version": "v1"
+    },
+    "servers": [
+        {
+            "url": "/",
+            "description": "Production"
+        }
+    ],
+    "paths": {
+        "/estacion/{id}": {
+            "put": {
+                "tags": [
+                    "Operaciones accesibles desde la API del Ayuntamiento"
+                ],
+                "summary": "Modifica una estación existente",
+                "description": "Actualiza los datos (dirección, latitud y longitud) de una estación de medición identificada por su id",
+                "operationId": "actualizarEstacion",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Estacion"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "Faltan campos obligatorios en la petición",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Sin permisos necesarios para esta petición",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No existe una estación con el id indicado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Estación actualizada correctamente",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Operaciones que necesitan el rol 'estacion'"
+                ],
+                "summary": "Registra una nueva lectura de sensores",
+                "description": "Guarda una lectura de calidad del aire enviada por una estación de medición",
+                "operationId": "registrarLectura",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Lectura"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Lectura registrada correctamente",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Sin permisos necesarios para esta petición",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Petición mal escrita",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "La estación con ese id no existe",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Operaciones accesibles desde la API del Ayuntamiento"
+                ],
+                "summary": "Elimina una estación de medición",
+                "description": "Elimina una estación de medición de la base de datos según su id",
+                "operationId": "eliminarEstacion",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Sin permisos necesarios para esta petición",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Estación eliminada correctamente",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontró la estación con ese id",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/estacion": {
+            "post": {
+                "tags": [
+                    "Operaciones accesibles desde la API del Ayuntamiento"
+                ],
+                "summary": "Añade una nueva estación de medición",
+                "description": "Permite al administrador registrar una nueva estación de medición con su id, dirección, latitud y longitud",
+                "operationId": "crearEstacion",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Estacion"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "409": {
+                        "description": "Ya existe una estación con el id indicado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "Estación creada correctamente",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Sin permisos necesarios para esta petición",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Faltan campos obligatorios como 'id' o 'dirección'",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/estaciones": {
+            "get": {
+                "tags": [
+                    "Operaciones públicas"
+                ],
+                "summary": "Obtiene todas las estaciones",
+                "description": "Obtiene un listado con todas las estaciones de medición de la aplicación junto con sus datos",
+                "operationId": "getAllEstaciones",
+                "responses": {
+                    "200": {
+                        "description": "Devuelve el listado de estaciones",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Estacion"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/estacion/{id}/status": {
+            "get": {
+                "tags": [
+                    "Operaciones públicas"
+                ],
+                "summary": "Obtener la última lectura o las lecturas por intervalo",
+                "description": "Devuelve la última lectura de una estación o todas las lecturas en un intervalo si se pasan parámetros 'from' y 'to'",
+                "operationId": "obtenerLecturas",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Fechas mal escritas",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Lecturas devueltas correctamente",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontraron lecturas",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Estacion": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "direccion": {
+                        "type": "string"
+                    },
+                    "latitud": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "longitud": {
+                        "type": "number",
+                        "format": "float"
+                    }
+                }
+            },
+            "Lectura": {
+                "type": "object",
+                "properties": {
+                    "vocs_NMHC": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "pm2_5": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "timeStamp": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "nitricOxides": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "nitrogenDioxides": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "VOCs_NMHC": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "PM2_5": {
+                        "type": "number",
+                        "format": "float"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}

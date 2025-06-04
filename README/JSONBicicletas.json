@@ -1,0 +1,421 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "API de bicicletas",
+        "description": "API que contiene todas las operaciones necesarias para la gestión de las bicicletas",
+        "contact": {
+            "name": "Pablo Gómez/Diego Ruiz",
+            "email": "pagobo2@alumni.uv.es/dieruiz4@alumni.uv.es"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        "version": "v1"
+    },
+    "servers": [
+        {
+            "url": "/",
+            "description": "Production"
+        }
+    ],
+    "paths": {
+        "/aparcamiento/{id}": {
+            "put": {
+                "tags": [
+                    "Operaciones accesibles desde la API del Ayuntamiento"
+                ],
+                "summary": "Update parking",
+                "description": "Modifica un parking",
+                "operationId": "update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Parking"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "404": {
+                        "description": "No existe una parking con el id indicado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Faltan campos obligatorios en la petición",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Sin permisos necesarios para esta petición",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Parking actualizado correctamente",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Operaciones accesibles desde la API del Ayuntamiento"
+                ],
+                "summary": "Delete parking",
+                "description": "Elimina un parking pasado un id",
+                "operationId": "delete",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Sin permisos necesarios para esta petición",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontró el parking con ese id",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Parking eliminado correctamente",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/evento/{id}": {
+            "post": {
+                "tags": [
+                    "Operaciones que necesitan el rol 'aparcamiento'"
+                ],
+                "summary": "Add evento",
+                "description": "Añade un nuevo evento a un aparcamiento determinado",
+                "operationId": "crearEvento",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OperacionDTO"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "404": {
+                        "description": "No se encontró el aparcamiento",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Operación no válida",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Sin permisos necesarios para esta petición",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "Evento creado correctamente",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/aparcamiento": {
+            "post": {
+                "tags": [
+                    "Operaciones accesibles desde la API del Ayuntamiento"
+                ],
+                "summary": "Add parking",
+                "description": "Añade un nuevo aparcamiento",
+                "operationId": "add",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Parking"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "401": {
+                        "description": "Sin permisos necesarios para esta petición",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "Aparcamiento creado correctamente",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Faltan campos obligatorios como 'id' o 'dirección'",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Ya existe un aparcamiento con el id indicado",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/aparcamientos": {
+            "get": {
+                "tags": [
+                    "Operaciones públicas"
+                ],
+                "summary": "Get parkings",
+                "description": "Muestra todos los aparcamientos",
+                "operationId": "listAll",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/aparcamiento/{id}/status": {
+            "get": {
+                "tags": [
+                    "Operaciones públicas"
+                ],
+                "summary": "Get events by dates",
+                "description": "Muestra los cambios de estado de una parada en un cierto espacio de tiempo",
+                "operationId": "statusParking_1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/aparcamiento/available": {
+            "get": {
+                "tags": [
+                    "Operaciones públicas"
+                ],
+                "summary": "Top 10 parkings with free bikes",
+                "description": "Consulta los 10 parkings con más bicis disponibles en este momento",
+                "operationId": "top10Ahora",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Parking": {
+                "type": "object",
+                "properties": {
+                    "idparking": {
+                        "type": "string"
+                    },
+                    "direction": {
+                        "type": "string"
+                    },
+                    "bikesCapacity": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "latitude": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "longitude": {
+                        "type": "number",
+                        "format": "float"
+                    }
+                }
+            },
+            "OperacionDTO": {
+                "type": "object",
+                "properties": {
+                    "operation": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}
